@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administración - Spa Verónica Hernández</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link href="https://fonts.googleapis.com/css2?family=Pattaya&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #fffbe6;
+    }
+    .sidebar {
+      min-height: 100vh;
+      background: linear-gradient(180deg, #fffbe6 60%, #f7e7c4 100%);
+      border-right: 3px solid #fec2c2;
+      padding-top: 2rem;
+      border-radius: 18px 0 0 18px;
+      box-shadow: 2px 0 10px #c79e4233;
+    }
+    .sidebar .nav-link {
+      color: #C79E42;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      transition: background 0.2s, color 0.2s;
+      border-radius: 8px;
+      font-size: 1.1rem;
+    }
+    .sidebar .nav-link.active, .sidebar .nav-link:hover {
+      background: #fec2c2;
+      color: #000;
+    }
+    .sidebar .logo {
+      font-family: 'Pattaya', cursive;
+      font-size: 2rem;
+      color: #C79E42;
+      margin-bottom: 2rem;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+    .content-area {
+      padding: 2rem;
+      border-radius: 0 18px 18px 0;
+      background: linear-gradient(90deg, #fffbe6 60%, #f7e7c4 100%);
+      min-height: 100vh;
+      box-shadow: 0 2px 10px #c79e4233;
+    }
+    .calendar-container {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 2px 10px #c79e4233;
+      padding: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Pattaya', cursive;
+      color: #C79E42;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .calendar-table {
+      width: 100%;
+      text-align: center;
+      border-collapse: separate;
+      border-spacing: 6px;
+    }
+    .calendar-table th {
+      color: #C79E42;
+      font-weight: 600;
+      font-family: 'Pattaya', cursive;
+      font-size: 1.1rem;
+    }
+    .calendar-table td {
+      background: #fffbe6;
+      border-radius: 8px;
+      height: 60px;
+      width: 60px;
+      font-size: 1.1rem;
+      color: #C79E42;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      vertical-align: top;
+      position: relative;
+    }
+    .calendar-table td.today {
+      background: #fec2c2;
+      color: #fff;
+      font-weight: bold;
+      border: 2px solid #C79E42;
+    }
+    .calendar-table td.has-cita {
+      background: #fec2c2;
+      color: #fff;
+      font-weight: bold;
+    }
+    .calendar-table td .cita-dot {
+      display: block;
+      width: 10px;
+      height: 10px;
+      background: #C79E42;
+      border-radius: 50%;
+      margin: 4px auto 0 auto;
+    }
+    @media (max-width: 1000px) {
+      .calendar-container {
+        max-width: 100%;
+        padding: 1rem;
+      }
+      .calendar-table td {
+        height: 36px;
+        width: 36px;
+        font-size: 1em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Barra lateral -->
+      <nav class="col-md-3 col-lg-2 d-md-block sidebar">
+        <div class="logo mb-4">
+          <i class="bi bi-flower1"></i> Spa Verónica Hernández
+        </div>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">
+              <i class="bi bi-speedometer2"></i> Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-calendar-check"></i> Citas
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'crudusuarios' %}">
+              <i class="bi bi-people"></i> Usuarios
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-clock-history"></i> Horarios
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-gear"></i> Configuración
+            </a>
+          </li>
+          <li class="nav-item mt-4">
+            <a class="nav-link text-danger" href="{% url 'logout' %}">
+              <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- Área de contenido -->
+      <main class="col-md-9 ms-sm-auto col-lg-10 content-area">
+        {% block admin_content %}
+        <div class="calendar-container shadow-lg mb-4">
+          <div class="calendar-header">
+            <button id="prevMonth" class="btn btn-sm btn-outline-warning"><i class="bi bi-chevron-left"></i></button>
+            <span id="calendarMonth"></span>
+            <button id="nextMonth" class="btn btn-sm btn-outline-warning"><i class="bi bi-chevron-right"></i></button>
+          </div>
+          <table class="calendar-table">
+            <thead>
+              <tr>
+                <th>Lun</th>
+                <th>Mar</th>
+                <th>Mié</th>
+                <th>Jue</th>
+                <th>Vie</th>
+                <th>Sáb</th>
+                <th>Dom</th>
+              </tr>
+            </thead>
+            <tbody id="calendarBody">
+            </tbody>
+          </table>
+        </div>
+        <div class="modal fade" id="citasModal" tabindex="-1" aria-labelledby="citasModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius:18px;">
+              <div class="modal-header" style="background:#fec2c2; border-radius:18px 18px 0 0;">
+                <h5 class="modal-title" id="citasModalLabel" style="color:#C79E42; font-family:'Pattaya',cursive;">
+                  Citas del <span id="modalFecha"></span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body" id="modalCitasBody">
+                <!-- Aquí se muestran las citas -->
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endblock %}
+      </main>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const citas = [
+     
+    ];
+
+    const monthNames = [
+      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
+    let today = new Date();
+    let currentMonth = today.getMonth();
+    let currentYear = today.getFullYear();
+
+    function renderCalendar(month, year) {
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+      const calendarBody = document.getElementById('calendarBody');
+      const calendarMonth = document.getElementById('calendarMonth');
+      calendarBody.innerHTML = "";
+
+      calendarMonth.textContent = `${monthNames[month]} ${year}`;
+
+      let date = 1;
+      let startDay = (firstDay.getDay() + 6) % 7; // Lunes = 0
+      for (let i = 0; i < 6; i++) {
+        let row = document.createElement('tr');
+        for (let j = 0; j < 7; j++) {
+          let cell = document.createElement('td');
+          if ((i === 0 && j < startDay) || date > lastDay.getDate()) {
+            cell.innerHTML = "";
+          } else {
+            cell.textContent = date;
+            const fechaStr = `${year}-${String(month+1).padStart(2,'0')}-${String(date).padStart(2,'0')}`;
+            const citasDia = citas.filter(c => c.fecha === fechaStr);
+            if (citasDia.length > 0) {
+              cell.classList.add('has-cita');
+              cell.innerHTML = `<div>${date}</div><span class="cita-dot"></span>`;
+              cell.title = citasDia.map(c => `${c.hora ? c.hora + ' - ' : ''}${c.servicio} (${c.usuario})`).join('\n');
+              cell.onclick = function() {
+                mostrarCitas(fechaStr, citasDia);
+              };
+            } else {
+              cell.onclick = function() {
+                mostrarCitas(fechaStr, []);
+              };
+            }
+            if (
+              date === today.getDate() &&
+              month === today.getMonth() &&
+              year === today.getFullYear()
+            ) {
+              cell.classList.add('today');
+            }
+            date++;
+          }
+          row.appendChild(cell);
+        }
+        calendarBody.appendChild(row);
+        if (date > lastDay.getDate()) break;
+      }
+    }
+
+    function mostrarCitas(fecha, citasDia) {
+      document.getElementById('modalFecha').textContent = fecha.split('-').reverse().join('/');
+      const body = document.getElementById('modalCitasBody');
+      if (citasDia.length === 0) {
+        body.innerHTML = "<div class='text-center text-muted'>No hay citas para este día.</div>";
+      } else {
+        body.innerHTML = citasDia.map(c =>
+          `<div class="mb-2 p-2 rounded" style="background:#fffbe6;">
+            <b>${c.hora ? c.hora : ''}</b> ${c.servicio}<br>
+            <span style="font-size:0.95em;">${c.usuario}</span><br>
+            <span style="font-size:0.9em;">Pago: ${c.metodopago ? c.metodopago : ''}${c.alergias ? ' | Alergias: '+c.alergias : ''}</span>
+          </div>`
+        ).join('');
+      }
+      new bootstrap.Modal(document.getElementById('citasModal')).show();
+    }
+
+    document.getElementById('prevMonth').onclick = function() {
+      currentMonth--;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+      renderCalendar(currentMonth, currentYear);
+    };
+    document.getElementById('nextMonth').onclick = function() {
+      currentMonth++;
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      }
+      renderCalendar(currentMonth, currentYear);
+    };
+
+    renderCalendar(currentMonth, currentYear);
+  </script>
+</body>
+</html>

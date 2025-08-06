@@ -1,0 +1,47 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %}Servicios - Spa Verónica Hernández{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'home/css/servicios.css' %}">
+
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    
+    <section class="header-servicios d-flex flex-column flex-md-row justify-content-between align-items-center mb-5">
+        <div>
+            <h2 class="mb-2">Nuestros Servicios</h2>
+            <p>Descubre todo lo que tenemos para tu bienestar y relajación.</p>
+        </div>
+        <div class="d-flex align-items-center mt-3 mt-md-0">
+            <img src="{% static 'home/images/logoFooter.png' %}" alt="Spa Logo" style="width: 36px; height: 36px;" class="me-2">
+            <span style="color: #C79E42; font-weight: bold;">¡Reserva tu cita hoy!</span>
+        </div>
+    </section>
+
+    <section>
+        {% if servicios %}
+        <div class="row g-4 justify-content-center">
+            {% for servicio in servicios %}
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center">
+                <div class="card carta shadow-sm">
+                    <img src="{{ servicio.imagenproducto }}" class="card-img-top" alt="{{ servicio.descripcion }}">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <h5 class="card-title">{{ servicio.descripcion }}</h5>
+                        <p class="text-muted mb-1">{{ servicio.precio }}$ COP</p>
+                        <p class="card-text">{{ servicio.descripcion|truncatechars:100 }}</p>
+                        <a href="{% url 'agendar' %}" class="btn botonReservaServicio mt-auto">Reserva ahora</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="alert alert-info text-center">No hay servicios disponibles en este momento.</p>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

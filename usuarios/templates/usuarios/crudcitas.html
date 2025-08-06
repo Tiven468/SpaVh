@@ -1,0 +1,90 @@
+{% extends 'usuarios/base.html' %}
+{% load static %}
+{% block title %}Spa VH - Citas Agendadas{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'usuarios/css/crudusuarios.css' %}">
+<style>
+    .search-box {
+        max-width: 350px;
+        margin: 20px 0 10px 0;
+    }
+    .table thead th {
+        background: #ffe5e5;
+        color: #C79E42;
+        font-weight: 600;
+    }
+    .estado-select {
+        min-width: 120px;
+        border-radius: 8px;
+        border: 1px solid #C79E42;
+        padding: 2px 8px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="contanedor-general">
+    <div class="crud-title d-flex justify-content-between h-1 align-items-center">
+        <h1>Citas Agendadas</h1>
+    </div>
+    <div class="search-box">
+        <input type="text" id="busquedaCitas" class="form-control" placeholder="Buscar cita...">
+    </div>
+    <div class="table-responsive">
+        <table class="table p-5">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Usuario</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Hora</th>
+                    <th scope="col">Servicio</th>
+                    <th scope="col">Método de Pago</th>
+                    <th scope="col">Alergias</th>
+                    <th scope="col">Estado</th>
+                </tr>
+            </thead>
+            <tbody id="tablaCitas">
+                {% for cita in citas %}
+                <tr>
+                    <td>{{ cita.idagendarcita }}</td>
+                    <td>{{ cita.usuarios_idusuarios.nombre }} {{ cita.usuarios_idusuarios.apellido }}</td>
+                    <td>{{ cita.horarios_idhorarios.fecha }}</td>
+                    <td>{{ cita.horarios_idhorarios.hora }}</td>
+                    <td>{{ cita.servicio }}</td>
+                    <td>{{ cita.metodopago }}</td>
+                    <td>{{ cita.alergias }}</td>
+                    <td>
+                        <select class="estado-select">
+                            <option value="Pendiente" {% if cita.estado == "Pendiente" %}selected{% endif %}>Pendiente</option>
+                            <option value="Aceptada" {% if cita.estado == "Aceptada" %}selected{% endif %}>Aceptada</option>
+                            <option value="Cancelada" {% if cita.estado == "Cancelada" %}selected{% endif %}>Cancelada</option>
+                        </select>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const input = document.getElementById("busquedaCitas");
+    if (input) {
+        input.addEventListener("keyup", function() {
+            const filtro = input.value.toLowerCase();
+            document.querySelectorAll("#tablaCitas tr").forEach(function(row) {
+                const texto = row.textContent.toLowerCase();
+                row.style.display = texto.includes(filtro) ? "" : "none";
+            });
+        });
+    }
+});
+</script>
+{% endblock %}

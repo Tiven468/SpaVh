@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Great+Vibes&family=Pattaya&display=swap');
+
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: white !important;
+}
+
+nav{
+    background-color: #ffdddd;
+}
+
+
+.Logo{
+    font-size: 20px;
+    
+    font-family: "Pattaya", sans-serif;
+    color: #C79E42;
+     /* Se adapta bien sin recortar */
+}
+
+li a{
+    font-family: "Pattaya", sans-serif;
+    color: #C79E42 !important;
+}
+
+.botonagendar{
+    background-color: #fec2c2;
+    color: #C79E42;
+    font-family: "Pattaya", sans-serif;
+}
+
+.botonlogin{
+    background-color: #fec2c2;
+    color: #C79E42;
+    font-family: "Pattaya", sans-serif;
+}
+
+footer{
+    background: linear-gradient(to right, #feabab, #ffe7e7);
+}
+
+/* Botón de los tres punticos */
+.btn-outline-secondary {
+  border-color: #C79E42 !important;
+  color: #C79E42;
+  background-color: #fec2c2;
+  transition: background-color 0.3s ease;
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus,
+.btn-outline-secondary:active,
+.btn-outline-secondary:focus-visible {
+  background-color: #fec2c2 !important;
+  border-color: #C79E42 !important;
+  color: black !important;
+}
+
+/* Menú desplegable */
+.dropdown-menu {
+  background-color: #fec2c2;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Opciones del menú */
+.dropdown-menu .dropdown-item {
+  color: white;
+  transition: background-color 0.2s ease;
+  font-weight: 500;
+}
+
+.dropdown-menu .dropdown-item:hover {
+  background-color: #fec2c2;
+  color: black;
+  border-radius: 6px;
+}
+
+

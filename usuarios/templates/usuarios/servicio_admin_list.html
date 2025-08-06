@@ -1,0 +1,117 @@
+{% extends 'usuarios/base.html' %}
+{% load static %}
+
+{% block title %}Spa VH - Gestión de Servicios{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'usuarios/css/crudusuarios.css' %}"> {# Reutiliza o adapta tu CSS si aplica #}
+<style>
+    .search-box {
+        max-width: 350px;
+        margin: 20px 0 10px 0;
+    }
+    .table thead th {
+        background: #ffe5e5;
+        color: #C79E42;
+        font-weight: 600;
+    }
+    .boton-editar, .btn[style*="background-color: #fec2c2;"] {
+        color: #fff;
+        font-weight: 500;
+        border: none;
+    }
+    .boton-editar:hover, .btn[style*="background-color: #fec2c2;"]:hover {
+        background-color: #C79E42 !important;
+        color: #fff;
+    }
+    .table img {
+        width: 50px; /* Tamaño para las imágenes en la tabla */
+        height: auto;
+        border-radius: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="contanedor-general">
+    <div class="crud-title d-flex justify-content-between h-1 align-items-center">
+        <h1>Servicios Registrados</h1>
+        <a href="{% url 'servicio_create' %}" class="btn" style="background-color: #fec2c2;">Crear Nuevo Servicio</a>
+    </div>
+    <div class="search-box">
+        <input type="text" id="busquedaServicios" class="form-control" placeholder="Buscar servicio...">
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if servicios %}
+        <div class="table-responsive">
+            <table class="table p-5 align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Imagen</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaServicios">
+                    {% for servicio in servicios %}
+                    <tr>
+                        <td>{{ servicio.idservicios }}</td>
+                        <td>{{ servicio.descripcion }}</td>
+                        <td>{{ servicio.precio }}$ COP</td>
+                        <td>
+                            {% if servicio.imagenproducto %}
+                                <img src="{{ servicio.imagenproducto }}" alt="{{ servicio.descripcion }}" class="img-fluid">
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                        <td class="d-flex gap-2">
+                            <a href="{% url 'servicio_update' servicio.idservicios %}" class="btn boton-editar" style="background-color: #fec2c2;">Editar</a> 
+                            <form action="{% url 'servicio_delete' servicio.idservicios %}" method="post"
+                                onsubmit="return confirm('¿Estás seguro de que quieres eliminar el servicio \'{{ servicio.descripcion }}\'?');">
+                                {% csrf_token %} 
+                                <button type="submit" class="btn" style="background-color: #fec2c2;">Borrar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            No hay servicios registrados. ¡Agrega el primero!
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const input = document.getElementById("busquedaServicios");
+    if (input) {
+        input.addEventListener("keyup", function() {
+            const filtro = input.value.toLowerCase();
+            document.querySelectorAll("#tablaServicios tr").forEach(function(row) {
+                const texto = row.textContent.toLowerCase();
+                row.style.display = texto.includes(filtro) ? "" : "none";
+            });
+        });
+    }
+});
+</script>
+{% endblock %}

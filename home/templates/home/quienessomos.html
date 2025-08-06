@@ -1,0 +1,43 @@
+{% extends 'home/base.html' %}
+
+<!-- load static debe estar en todos los htmls que usen base.html -->
+{% load static %}
+
+<!-- block title es el titulo que tendra la pestaña de dicho html -->
+{% block title %}Reservas - Spa Vital Harmony{% endblock %}
+
+<!-- Aqui ponemos el archivo css de cada html -->
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'home/css/QuienesSomos.css' %}">
+{% endblock %}
+
+<!-- Aqui ponemos el contenido especifico del archivo html -->
+{% block content %}
+    <div class="container d-flex mb-5 mt-5">
+        <div class="texto">
+            <h1>Quiénes somos</h1>
+            <p>En Spa Verónica Hernández, creemos que el bienestar no es un lujo, es una necesidad.
+                Desde nuestros inicios, nos hemos dedicado a ofrecer un espacio de relajación y renovación, donde cada detalle está pensado para brindarte una experiencia única de paz y armonía. <br>
+                
+                Nuestro equipo está conformado por terapeutas certificados, expertos en estética y profesionales en el cuidado integral de la salud física y emocional. Con una pasión genuina por el bienestar, trabajamos día a día para que cada visita sea una pausa reparadora en tu rutina. <br>
+                
+                ¿Qué nos hace diferentes?<br>
+                
+                Tratamientos personalizados que se adaptan a tus necesidades.
+                
+                Productos naturales de la más alta calidad.
+                
+                Un ambiente cálido, acogedor y lleno de energía positiva.
+                
+                Compromiso constante con la innovación y la excelencia en el servicio.
+                
+                En Spa Vital Harmony, más que un servicio, te ofrecemos una experiencia que transforma cuerpo, mente y alma.
+                Te invitamos a conocernos y regalarte el cuidado que mereces.
+                
+                Tu bienestar comienza aquí.</p>
+        </div>
+        <div class="imagen">
+            <img src="{% static 'home/images/quienessomos.jpg' %}" alt="">
+        </div>
+    </div>
+{% endblock %}

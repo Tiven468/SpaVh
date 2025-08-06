@@ -1,0 +1,42 @@
+<!-- Extends debe ser la primera linea de codigo para que "base.html" funcione en el template -->
+{% extends 'home/base.html' %}
+
+<!-- El load static debe estar en todos los html's -->
+{% load static %}
+
+
+{% block title %}Reservas - Spa Vital Harmony{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'reservas/css/reservas.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h2>Mis Reservas</h2>
+
+    <table class="reservas-table">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Servicio</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Aquí iría un loop para mostrar cada reserva -->
+            <tr>
+                <td>2025-05-10</td>
+                <td>10:00 AM</td>
+                <td>Masaje Relajante</td>
+                <td>Confirmada</td>
+            </tr>
+            <tr>
+                <td>2025-05-15</td>
+                <td>02:00 PM</td>
+                <td>Facial Revitalizante</td>
+                <td>Pendiente</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

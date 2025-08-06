@@ -1,0 +1,95 @@
+{% extends 'usuarios/base.html' %}
+{% load static %}
+
+{% block title %}Spa VH - Crear Usuario{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'usuarios/css/crudusuarios.css' %}">
+<style>
+    .card-form {
+        max-width: 600px;
+        margin: 0 auto;
+        border-radius: 18px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        padding: 2.5rem 2rem;
+        background: #fff;
+    }
+    .card-form h2 {
+        color: #C79E42;
+        font-family: 'Pattaya', cursive;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+    .btn-primary {
+        background-color: #C79E42;
+        border: none;
+    }
+    .btn-primary:hover {
+        background-color: #a87e2d;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card-form">
+        <h2>Crear Nuevo Usuario</h2>
+        <form method="post" action="{% url 'crear_usuario' %}">
+            {% csrf_token %}
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="nombre" class="form-label">Nombre:</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="apellido" class="form-label">Apellido:</label>
+                    <input type="text" class="form-control" id="apellido" name="apellido" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="tipodocumento" class="form-label">Tipo de Documento:</label>
+                    <select class="form-select" id="tipodocumento" name="tipodocumento" required>
+                        <option value="">Selecciona una opción</option>
+                        <option value="1">C.C</option>
+                        <option value="2">T.I</option>
+                        <option value="3">C.E</option>
+                        <option value="4">NIT</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="numerodocumento" class="form-label">Número de Documento:</label>
+                    <input type="number" class="form-control" id="numerodocumento" name="numerodocumento" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="correo" class="form-label">Correo:</label>
+                    <input type="email" class="form-control" id="correo" name="correo" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="contraseña" class="form-label">Contraseña:</label>
+                    <input type="password" class="form-control" id="contraseña" name="contraseña" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="celular" class="form-label">Celular:</label>
+                    <input type="tel" class="form-control" id="celular" name="celular" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="fechanacimiento" class="form-label">Fecha de Nacimiento:</label>
+                    <input type="date" class="form-control" id="fechanacimiento" name="fechanacimiento" required>
+                </div>
+                <div class="col-md-12">
+                    <label for="perfil" class="form-label">Perfil:</label>
+                    <select class="form-select" id="perfil" name="perfil" required>
+                        <option value="">Selecciona un perfil</option>
+                        {% for perfil in perfiles %}
+                            <option value="{{ perfil.idperfiles }}">{{ perfil.descripcion }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="mt-4 d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">Crear Usuario</button>
+                <a href="{% url 'listausuarios' %}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

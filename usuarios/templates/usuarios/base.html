@@ -1,0 +1,139 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Spa VH - Admin{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pattaya&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'usuarios/css/base.css' %}" />
+    <script src="{% static 'usuarios/js/validaciones.js' %}"></script>
+    <style>
+        body {
+            min-height: 100vh;
+            background: #f8f9fa;
+        }
+        .sidebar {
+            min-width: 240px;
+            max-width: 240px;
+            background: #fff;
+            border-right: 1px solid #e5e5e5;
+            min-height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1030;
+            padding-top: 2rem;
+        }
+        .sidebar .nav-link {
+            color: #333;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .sidebar .nav-link.active, .sidebar .nav-link:hover {
+            background: #ffe5e5;
+            color: #C79E42;
+        }
+        .sidebar .navbar-brand {
+            font-family: 'Pattaya', cursive;
+            color: #C79E42;
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+        }
+        .sidebar .user-info {
+            margin-top: 2rem;
+            font-size: 1rem;
+            color: #C79E42;
+        }
+        .main-content {
+            margin-left: 240px;
+            padding: 2rem 2rem 2rem 2rem;
+            width: 100%;
+        }
+        @media (max-width: 991.98px) {
+            .sidebar {
+                position: relative;
+                min-width: 100%;
+                max-width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e5e5e5;
+                min-height: auto;
+                padding-top: 1rem;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+        }
+    </style>
+    {% block extra_css %}
+    {% endblock %}
+</head>
+
+<body>
+    <div class="sidebar d-flex flex-column align-items-start px-4">
+        <a class="navbar-brand Logo mb-4" href="#">Spa Verónica Hernández</a>
+        <nav class="flex-grow-1 w-100">
+            <ul class="nav flex-column w-100">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'listausuarios' %}active{% endif %}" href="{% url 'listausuarios' %}">
+                        <i class="bi bi-people"></i> Usuarios
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'listar_citas' %}active{% endif %}" href="{% url 'listar_citas' %}">
+                        <i class="bi bi-calendar-check"></i> Citas
+                    </a>
+                </li>
+                {# Nuevo enlace para la gestión de Servicios #}
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'servicio_admin_list' %}active{% endif %}" href="{% url 'servicio_admin_list' %}">
+                        <i class="bi bi-tags"></i> Servicios
+                    </a>
+                </li>
+                {% if request.session.perfil == "usuario" %}
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'agendar' %}active{% endif %}" href="{% url 'agendar' %}">
+                        <i class="bi bi-calendar-plus"></i> Agendar Cita
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'cuenta' %}active{% endif %}" href="{% url 'cuenta' %}">
+                        <i class="bi bi-person-circle"></i> Mi Cuenta
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        <div class="user-info w-100 mt-auto mb-3">
+            {% if nombre %}
+                <div class="mb-2"><i class="bi bi-person"></i> ¡Hola, {{ nombre }}!</div>
+            {% endif %}
+            {% if request.session.perfil %}
+                <a class="btn btn-outline-danger btn-sm w-100 mt-3" href="{% url 'logout' %}">
+                    <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                </a>
+            {% else %}
+                <a class="btn btn-outline-primary btn-sm w-100 mt-3" href="{% url 'login' %}">
+                    <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <main class="main-content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}
+    {% endblock %}
+    
+    </body>
+</html>
