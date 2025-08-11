@@ -86,9 +86,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME':'spa',
-        'USER':'spa',
-        'PASSWORD': 'zoN4fGY\9=7^0{GP',
-        'HOST':'34.56.86.179',
+        'USER':'vero',
+        'PASSWORD': 'MGUDON^PYXT.zO36',
+        'HOST':'34.59.212.248',
         'PORT':'3306'
     }
 }
