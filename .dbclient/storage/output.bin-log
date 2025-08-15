@@ -1,0 +1,57 @@
+[34m2025-03-21 10:35:55[39m Executing: CREATE DATABASE      PruebaNode DEFAULT CHARACTER SET = 'utf8mb4'
+[34m2025-03-21 10:35:55[39m [32mResult: 1 rows affected in 9ms[39m
+[34m2025-03-21 10:40:11[39m Executing: CREATE TABLE usuarios(         id_user INT AUTO_INCREMENT,         nombre VARCHAR(200),         telefono VARCHAR (50),         email VARCHAR (100),         PRIMARY KEY(id_user)     )
+[34m2025-03-21 10:40:11[39m [31mExecute fail : No database selected[39m
+[34m2025-03-21 10:40:22[39m Executing: CREATE TABLE usuarios(         id_user INT AUTO_INCREMENT,         nombre VARCHAR(200),         telefono VARCHAR (50),         email VARCHAR (100),         PRIMARY KEY(id_user)     )
+[34m2025-03-21 10:40:22[39m [31mExecute fail : No database selected[39m
+[34m2025-03-21 10:41:08[39m Executing: CREATE TABLE usuarios(         id_user INT AUTO_INCREMENT,         nombre VARCHAR(200),         telefono VARCHAR (50),         email VARCHAR (100),         PRIMARY KEY(id_user)     )
+[34m2025-03-21 10:41:08[39m [31mExecute fail : No database selected[39m
+[34m2025-03-21 10:41:54[39m Executing: USE pruebanode
+[34m2025-03-21 10:41:54[39m [32mResult: 0 rows affected in 3ms[39m
+[34m2025-03-21 10:42:00[39m Executing: CREATE TABLE usuarios(         id_user INT AUTO_INCREMENT,         nombre VARCHAR(200),         telefono VARCHAR (50),         email VARCHAR (100),         PRIMARY KEY(id_user)     )
+[34m2025-03-21 10:42:00[39m [32mResult: 0 rows affected in 32ms[39m
+[34m2025-03-28 06:57:03[39m Executing: CREATE DATABASE     pruebaNode DEFAULT CHARACTER SET = 'utf8mb4'
+[34m2025-03-28 06:57:03[39m [32mResult: 1 rows affected in 27ms[39m
+[34m2025-03-28 06:57:19[39m Executing: USE pruebanode
+[34m2025-03-28 06:57:19[39m [32mResult: 0 rows affected in 2ms[39m
+[34m2025-03-28 06:58:31[39m Executing: CREATE TABLE usuarios(     id_user INT AUTO_INCREMENT,     nombre VARCHAR(200),     telefono VARCHAR(50),     email VARCHAR(100),     PRIMARY KEY(id_user) )
+[34m2025-03-28 06:58:31[39m [32mResult: 0 rows affected in 19ms[39m
+[34m2025-03-28 07:12:40[39m Executing: CREATE DATABASE      proyectoNode DEFAULT CHARACTER SET = 'utf8mb4'
+[34m2025-03-28 07:12:40[39m [32mResult: 1 rows affected in 25ms[39m
+[34m2025-03-28 07:13:07[39m Executing: USE proyectoNode
+[34m2025-03-28 07:13:07[39m [32mResult: 0 rows affected in 2ms[39m
+[34m2025-03-28 07:14:50[39m Executing: CREATE TABLE usuarios(         id_user INT AUTO_INCREMENT,         nombre VARCHAR (200),         telefono VARCHAR (50),         email VARCHAR (100),         PRIMARY KEY (id_user) )
+[34m2025-03-28 07:14:50[39m [32mResult: 0 rows affected in 19ms[39m
+[34m2025-04-04 11:27:36[39m Executing: ALTER TABLE `clientes`  	CHANGE `fecha_registro` `fecha_registro` DATE 
+[34m2025-04-04 11:27:36[39m [32mResult: 1 rows affected in 97ms[39m
+[34m2025-04-04 16:26:22[39m Executing: ALTER TABLE `clientes`  	CHANGE `fecha_registro` `fecha_registro` DATE 
+[34m2025-04-04 16:26:22[39m [32mResult: 0 rows affected in 41ms[39m
+[34m2025-04-04 16:26:46[39m Executing: ALTER TABLE `clientes`  	CHANGE `fecha_registro` `fecha_registro` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+[34m2025-04-04 16:26:46[39m [32mResult: 2 rows affected in 63ms[39m
+[34m2025-06-20 10:37:11[39m Executing: CREATE DATABASE node_mvc
+[34m2025-06-20 10:37:11[39m [32mResult: 1 rows affected in 9ms[39m
+[34m2025-06-20 10:37:19[39m Executing: Use
+[34m2025-06-20 10:37:19[39m [31mExecute fail : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1[39m
+[34m2025-06-20 10:39:03[39m Executing: Use    node_mvc
+[34m2025-06-20 10:39:03[39m [32mResult: 0 rows affected in 2ms[39m
+[34m2025-06-20 10:39:05[39m Executing: CRATE TABLE usuarios(     id INT AUTO_INCREMENT,     nombre VARCHAR(200),     email VARCHAR(100),     telefono VARCHAR(50),     PRIMARY KEY (id)    )Engine - innoDB
+[34m2025-06-20 10:39:05[39m [31mExecute fail : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'CRATE TABLE usuarios([39m
+[31m    id INT AUTO_INCREMENT,[39m
+[31m    nombre VARCHAR(200),[39m
+[31m   ' at line 1[39m
+[34m2025-06-20 10:41:02[39m Executing: CRATE TABLE usuarios(     id INT AUTO_INCREMENT,     nombre VARCHAR(200),     email VARCHAR(100),     telefono VARCHAR(50),     PRIMARY KEY (id)    )Engine - innoDB
+[34m2025-06-20 10:41:02[39m [31mExecute fail : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'CRATE TABLE usuarios([39m
+[31m    id INT AUTO_INCREMENT,[39m
+[31m    nombre VARCHAR(200),[39m
+[31m   ' at line 1[39m
+[34m2025-06-20 10:41:09[39m Executing: CREATE TABLE usuarios(     id INT AUTO_INCREMENT,     nombre VARCHAR(200),     email VARCHAR(100),     telefono VARCHAR(50),     PRIMARY KEY (id)    )Engine - innoDB
+[34m2025-06-20 10:41:09[39m [31mExecute fail : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '- innoDB' at line 7[39m
+[34m2025-06-20 10:44:19[39m Executing: CREATE DATABASE node_mvc
+[34m2025-06-20 10:44:19[39m [31mExecute fail : Can't create database 'node_mvc'; database exists[39m
+[34m2025-06-20 10:44:41[39m Executing: CREATE TABLE usuarios(     id INT AUTO_INCREMENT,     nombre VARCHAR(200),     email VARCHAR(100),     telefono VARCHAR(50),     PRIMARY KEY(id) )Engine = InnoDB
+[34m2025-06-20 10:44:41[39m [31mExecute fail : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Engine = InnoDB' at line 7[39m
+[34m2025-06-20 10:44:55[39m Executing: CREATE TABLE usuarios(     id INT AUTO_INCREMENT,     nombre VARCHAR(200),     email VARCHAR(100),     telefono VARCHAR(50),     PRIMARY KEY (id)    )Engine = innoDB
+[34m2025-06-20 10:44:55[39m [32mResult: 0 rows affected in 34ms[39m
+[34m2025-06-27 09:29:01[39m Executing: USE  node_mvc
+[34m2025-06-27 09:29:01[39m [32mResult: 0 rows affected in 34ms[39m
+
