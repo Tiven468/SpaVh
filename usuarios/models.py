@@ -201,14 +201,17 @@ class Registroproducto(models.Model):
         db_table = 'registroproducto'
 
 
+from django.db import models
+
 class Servicios(models.Model):
-    idservicios = models.AutoField(db_column='IdServicios', primary_key=True)  # Field name made lowercase.
-    descripcion = models.CharField(db_column='Descripcion', max_length=255)  # Field name made lowercase.
-    precio = models.IntegerField(db_column='Precio')  # Field name made lowercase.
-    imagenproducto = models.TextField(db_column='ImagenProducto')  # Field name made lowercase.
+    idservicios = models.AutoField(db_column='IdServicios', primary_key=True)
+    titulo = models.CharField(db_column ='Titulo', max_length=100)
+    descripcion = models.CharField(db_column='Descripcion', max_length=255)
+    precio = models.IntegerField(db_column='Precio')
+    imagenproducto = models.ImageField(upload_to='servicios/', db_column='ImagenProducto')  
 
     class Meta:
-        managed = False
+        managed = False   
         db_table = 'servicios'
 
 

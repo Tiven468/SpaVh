@@ -14,20 +14,16 @@ from datetime import timedelta
 
 # --- Vistas Existentes (Sin cambios funcionales, solo se incluye para contexto) ---
 
+
 def adminpage(request):
-    citas_qs = Agendarcita.objects.select_related('usuarios_idusuarios', 'horarios_idhorarios').all()
-    citas = []
-    for c in citas_qs:
-        citas.append({
-            "fecha": c.horarios_idhorarios.Fecha.strftime("%Y-%m-%d"),
-            "hora": c.horarios_idhorarios.Hora,
-            "servicio": c.Servicio,
-            "usuario": c.usuarios_idusuarios.Nombre, 
-            "metodopago": c.MetodoPago,
-            "alergias": c.Alergias,
-        })
-    citas_json = json.dumps(citas, cls=DjangoJSONEncoder)
-    return render(request, 'usuarios/admin.html', {"citas_json": citas_json})
+    total_usuarios = Usuarios.objects.count()
+    total_citas = Agendarcita.objects.count()  
+    return render(request, 'usuarios/admin.html', {
+        'total_usuarios': total_usuarios,
+        'total_citas': total_citas
+    })
+
+
 
 def login(request):
     if request.method == 'POST':
@@ -331,15 +327,16 @@ def servicio_admin_list(request):
 
 def servicio_create(request):
     if request.method == 'POST':
+        titulo = request.POST.get('titulo')
         descripcion = request.POST.get('descripcion')
         precio = request.POST.get('precio')
-        imagenproducto = request.POST.get('imagenproducto')
+        imagenproducto = request.FILES.get('imagenproducto')
 
-        if not descripcion or not precio or not imagenproducto:
+        if not titulo or not descripcion or not precio or not imagenproducto:
             messages.error(request, 'Todos los campos son obligatorios.')
             return render(request, 'usuarios/servicio_form.html', {
                 'action': 'Crear',
-                'servicio_data': request.POST # Pasa los datos ingresados en caso de error
+                'servicio_data': request.POST
             })
         
         try:
@@ -353,6 +350,7 @@ def servicio_create(request):
 
         try:
             Servicios.objects.create(
+                titulo=titulo,
                 descripcion=descripcion,
                 precio=precio_decimal,
                 imagenproducto=imagenproducto
@@ -366,27 +364,27 @@ def servicio_create(request):
                 'servicio_data': request.POST
             })
     else:
-        # Para solicitudes GET (cuando se carga el formulario por primera vez), pasamos un diccionario vacío
         return render(request, 'usuarios/servicio_form.html', {
             'action': 'Crear',
-            'servicio_data': {} # Importante para evitar VariableDoesNotExist
+            'servicio_data': {}
         })
+
 
 def servicio_update(request, pk):
     servicio = get_object_or_404(Servicios, pk=pk)
     
     if request.method == 'POST':
+        titulo = request.POST.get('titulo')
         descripcion = request.POST.get('descripcion')
         precio = request.POST.get('precio')
-        imagenproducto = request.POST.get('imagenproducto')
+        imagenproducto = request.FILES.get('imagenproducto')
 
-        if not descripcion or not precio or not imagenproducto:
-            messages.error(request, 'Todos los campos son obligatorios.')
-            # Pasamos los datos del POST y el objeto servicio original
+        if not titulo or not descripcion or not precio:
+            messages.error(request, 'Todos los campos son obligatorios (excepto imagen si no quieres cambiarla).')
             return render(request, 'usuarios/servicio_form.html', {
                 'action': 'Actualizar',
-                'servicio': servicio, # El objeto servicio original
-                'servicio_data': request.POST # Los datos que el usuario intentó enviar
+                'servicio': servicio,
+                'servicio_data': request.POST
             })
         
         try:
@@ -399,9 +397,12 @@ def servicio_update(request, pk):
                 'servicio_data': request.POST
             })
 
+        servicio.titulo = titulo
         servicio.descripcion = descripcion
         servicio.precio = precio_decimal
-        servicio.imagenproducto = imagenproducto
+
+        if imagenproducto:  # Solo si se sube una nueva
+            servicio.imagenproducto = imagenproducto
         
         try:
             servicio.save()
@@ -415,12 +416,12 @@ def servicio_update(request, pk):
                 'servicio_data': request.POST
             })
     else:
-        # Para solicitudes GET, pasamos el objeto servicio existente
         return render(request, 'usuarios/servicio_form.html', {
             'action': 'Actualizar',
             'servicio': servicio,
-            'servicio_data': {} # Vacio para el GET inicial, se usará 'servicio'
+            'servicio_data': {}
         })
+
 
 def servicio_delete(request, pk):
     servicio = get_object_or_404(Servicios, pk=pk)

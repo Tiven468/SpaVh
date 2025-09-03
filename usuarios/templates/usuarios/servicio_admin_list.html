@@ -4,114 +4,173 @@
 {% block title %}Spa VH - Gestión de Servicios{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'usuarios/css/crudusuarios.css' %}"> {# Reutiliza o adapta tu CSS si aplica #}
 <style>
-    .search-box {
-        max-width: 350px;
-        margin: 20px 0 10px 0;
+    .servicios-container {
+        margin-top: 20px;
     }
-    .table thead th {
-        background: #ffe5e5;
+
+    .servicios-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .servicios-header h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
         color: #C79E42;
-        font-weight: 600;
     }
-    .boton-editar, .btn[style*="background-color: #fec2c2;"] {
-        color: #fff;
-        font-weight: 500;
+
+    .search-box {
+        max-width: 320px;
+    }
+
+    .card-servicio {
         border: none;
+        border-radius: 16px;
+        box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        background: #fff;
     }
-    .boton-editar:hover, .btn[style*="background-color: #fec2c2;"]:hover {
-        background-color: #C79E42 !important;
+
+    .card-servicio:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-servicio img {
+        border-radius: 16px 16px 0 0;
+        object-fit: cover;
+        height: 180px;
+        width: 100%;
+    }
+
+    .card-body h5 {
+        color: #C79E42;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .card-body p {
+        font-size: 0.95rem;
+        color: #555;
+        margin-bottom: 0.5rem;
+    }
+
+    .precio {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #a87e2d;
+    }
+
+    .acciones {
+        display: flex;
+        gap: 10px;
+        margin-top: 1rem;
+    }
+
+    .acciones .btn {
+        border-radius: 10px;
+        font-weight: 500;
+        padding: 6px 14px;
+        transition: all 0.3s ease;
+    }
+
+    .acciones .btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .btn-crear {
+        background-color: #fec2c2;
+        color: #fff;
+        border: none;
+        font-weight: 600;
+        border-radius: 12px;
+        padding: 8px 16px;
+    }
+
+    .btn-crear:hover {
+        background-color: #C79E42;
         color: #fff;
     }
-    .table img {
-        width: 50px; /* Tamaño para las imágenes en la tabla */
-        height: auto;
-        border-radius: 5px;
+
+    .no-servicios {
+        text-align: center;
+        font-style: italic;
+        color: #888;
+        margin-top: 40px;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-
-<div class="contanedor-general">
-    <div class="crud-title d-flex justify-content-between h-1 align-items-center">
+<div class="servicios-container">
+    <div class="servicios-header">
         <h1>Servicios Registrados</h1>
-        <a href="{% url 'servicio_create' %}" class="btn" style="background-color: #fec2c2;">Crear Nuevo Servicio</a>
+        <a href="{% url 'servicio_create' %}" class="btn btn-crear">+ Crear Servicio</a>
     </div>
-    <div class="search-box">
+
+    <div class="search-box mb-4">
         <input type="text" id="busquedaServicios" class="form-control" placeholder="Buscar servicio...">
     </div>
 
     {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %} alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        {% endfor %}
+    {% for message in messages %}
+    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %} alert-dismissible fade show"
+        role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
     {% endif %}
 
     {% if servicios %}
-        <div class="table-responsive">
-            <table class="table p-5 align-middle">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Descripción</th>
-                        <th scope="col">Precio</th>
-                        <th scope="col">Imagen</th>
-                        <th scope="col">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="tablaServicios">
-                    {% for servicio in servicios %}
-                    <tr>
-                        <td>{{ servicio.idservicios }}</td>
-                        <td>{{ servicio.descripcion }}</td>
-                        <td>{{ servicio.precio }}$ COP</td>
-                        <td>
-                            {% if servicio.imagenproducto %}
-                                <img src="{{ servicio.imagenproducto }}" alt="{{ servicio.descripcion }}" class="img-fluid">
-                            {% else %}
-                                N/A
-                            {% endif %}
-                        </td>
-                        <td class="d-flex gap-2">
-                            <a href="{% url 'servicio_update' servicio.idservicios %}" class="btn boton-editar" style="background-color: #fec2c2;">Editar</a> 
-                            <form action="{% url 'servicio_delete' servicio.idservicios %}" method="post"
-                                onsubmit="return confirm('¿Estás seguro de que quieres eliminar el servicio \'{{ servicio.descripcion }}\'?');">
-                                {% csrf_token %} 
-                                <button type="submit" class="btn" style="background-color: #fec2c2;">Borrar</button>
-                            </form>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    <div class="row" id="listaServicios">
+        {% for servicio in servicios %}
+        <div class="col-md-6 col-lg-4 mb-4 servicio-card">
+            <div class="card card-servicio h-100">
+                {% if servicio.imagenproducto %}
+                <img src="{{ servicio.imagenproducto.url }}" alt="{{ servicio.descripcion }}">
+                {% else %}
+                <img src="{% static 'usuarios/img/placeholder.png' %}" alt="Sin imagen">
+                {% endif %}
+                <div class="card-body">
+                    <h5>{{ servicio.titulo }}</h5>
+                    <p>{{ servicio.descripcion }}</p>
+                    <p class="precio">{{ servicio.precio }} $ COP</p>
+                    <div class="acciones">
+                        <a href="{% url 'servicio_update' servicio.idservicios %}" class="btn btn-warning text-white">Editar</a>
+                        <form action="{% url 'servicio_delete' servicio.idservicios %}" method="post"
+                            onsubmit="return confirm('¿Estás seguro de eliminar el servicio \'{{ servicio.descripcion }}\'?');">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Borrar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
+        {% endfor %}
+    </div>
     {% else %}
-        <div class="alert alert-info" role="alert">
-            No hay servicios registrados. ¡Agrega el primero!
-        </div>
+    <div class="no-servicios">No hay servicios registrados. ¡Agrega el primero!</div>
     {% endif %}
 </div>
-
 {% endblock %}
 
 {% block extra_js %}
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const input = document.getElementById("busquedaServicios");
-    if (input) {
-        input.addEventListener("keyup", function() {
-            const filtro = input.value.toLowerCase();
-            document.querySelectorAll("#tablaServicios tr").forEach(function(row) {
-                const texto = row.textContent.toLowerCase();
-                row.style.display = texto.includes(filtro) ? "" : "none";
+    document.addEventListener("DOMContentLoaded", function () {
+        const input = document.getElementById("busquedaServicios");
+        if (input) {
+            input.addEventListener("keyup", function () {
+                const filtro = input.value.toLowerCase();
+                document.querySelectorAll(".servicio-card").forEach(function (card) {
+                    const texto = card.textContent.toLowerCase();
+                    card.style.display = texto.includes(filtro) ? "" : "none";
+                });
             });
-        });
-    }
-});
+        }
+    });
 </script>
 {% endblock %}

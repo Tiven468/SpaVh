@@ -3,85 +3,111 @@
 {% block title %}Spa VH - Citas Agendadas{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'usuarios/css/crudusuarios.css' %}">
 <style>
-    .search-box {
-        max-width: 350px;
-        margin: 20px 0 10px 0;
+    .citas-container {
+        margin-top: 20px;
     }
-    .table thead th {
+    .card-cita {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        background: #fff;
+    }
+    .card-cita:hover {
+        transform: translateY(-4px);
+        box-shadow: 0px 6px 16px rgba(0,0,0,0.15);
+    }
+    .card-header {
         background: #ffe5e5;
         color: #C79E42;
         font-weight: 600;
+        border-radius: 16px 16px 0 0 !important;
     }
     .estado-select {
-        min-width: 120px;
         border-radius: 8px;
-        border: 1px solid #C79E42;
-        padding: 2px 8px;
+        padding: 4px 10px;
+        font-size: 14px;
+        font-weight: 600;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+    }
+    /* Opciones siempre blancas */
+    .estado-select option {
+        background: #fff;
+        color: #000;
     }
 </style>
 {% endblock %}
 
 {% block content %}
+<div class="citas-container">
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 class="h4 text-uppercase fw-bold text-secondary">Citas Agendadas</h1>
+        <div class="search-box">
+            <input type="text" id="busquedaCitas" class="form-control" placeholder="Buscar cita...">
+        </div>
+    </div>
 
-<div class="contanedor-general">
-    <div class="crud-title d-flex justify-content-between h-1 align-items-center">
-        <h1>Citas Agendadas</h1>
-    </div>
-    <div class="search-box">
-        <input type="text" id="busquedaCitas" class="form-control" placeholder="Buscar cita...">
-    </div>
-    <div class="table-responsive">
-        <table class="table p-5">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Usuario</th>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Hora</th>
-                    <th scope="col">Servicio</th>
-                    <th scope="col">Método de Pago</th>
-                    <th scope="col">Alergias</th>
-                    <th scope="col">Estado</th>
-                </tr>
-            </thead>
-            <tbody id="tablaCitas">
-                {% for cita in citas %}
-                <tr>
-                    <td>{{ cita.idagendarcita }}</td>
-                    <td>{{ cita.usuarios_idusuarios.nombre }} {{ cita.usuarios_idusuarios.apellido }}</td>
-                    <td>{{ cita.horarios_idhorarios.fecha }}</td>
-                    <td>{{ cita.horarios_idhorarios.hora }}</td>
-                    <td>{{ cita.servicio }}</td>
-                    <td>{{ cita.metodopago }}</td>
-                    <td>{{ cita.alergias }}</td>
-                    <td>
-                        <select class="estado-select">
-                            <option value="Pendiente" {% if cita.estado == "Pendiente" %}selected{% endif %}>Pendiente</option>
-                            <option value="Aceptada" {% if cita.estado == "Aceptada" %}selected{% endif %}>Aceptada</option>
-                            <option value="Cancelada" {% if cita.estado == "Cancelada" %}selected{% endif %}>Cancelada</option>
-                        </select>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="row" id="citasCards">
+        {% for cita in citas %}
+        <div class="col-md-6 col-lg-4 mb-4 cita-card">
+            <div class="card card-cita h-100">
+                <div class="card-header">
+                    {{ cita.usuarios_idusuarios.nombre }} {{ cita.usuarios_idusuarios.apellido }}
+                </div>
+                <div class="card-body">
+                    <p><i class="bi bi-calendar-event"></i> <strong>Fecha:</strong> {{ cita.horarios_idhorarios.fecha }}</p>
+                    <p><i class="bi bi-clock"></i> <strong>Hora:</strong> {{ cita.horarios_idhorarios.hora }}</p>
+                    <p><i class="bi bi-heart"></i> <strong>Servicio:</strong> {{ cita.servicio }}</p>
+                    <p><i class="bi bi-credit-card"></i> <strong>Pago:</strong> {{ cita.metodopago }}</p>
+                    <p><i class="bi bi-exclamation-circle"></i> <strong>Alergias:</strong> {{ cita.alergias|default:"Ninguna" }}</p>
+                </div>
+                <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-flag"></i> Estado:</span>
+                    <select class="estado-select">
+                        <option value="Pendiente" {% if cita.estado == "Pendiente" %}selected{% endif %}>Pendiente</option>
+                        <option value="Aceptada" {% if cita.estado == "Aceptada" %}selected{% endif %}>Aceptada</option>
+                        <option value="Cancelada" {% if cita.estado == "Cancelada" %}selected{% endif %}>Cancelada</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="no-citas">No hay citas registradas</div>
+        {% endfor %}
     </div>
 </div>
-
 {% endblock %}
 
 {% block extra_js %}
 <script>
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
+    function aplicarColor(select) {
+        let color = "#6c757d"; // gris por defecto
+        if (select.value === "Pendiente") color = "#ffc107"; // amarillo
+        if (select.value === "Aceptada") color = "#28a745"; // verde
+        if (select.value === "Cancelada") color = "#dc3545"; // rojo
+
+        select.style.backgroundColor = color;
+        select.style.color = "#fff"; // texto blanco en el seleccionado
+    }
+
+    const selects = document.querySelectorAll(".estado-select");
+    selects.forEach(select => {
+        aplicarColor(select); // aplica al cargar
+        select.addEventListener("change", () => aplicarColor(select)); // aplica al cambiar
+    });
+
+    // buscador
     const input = document.getElementById("busquedaCitas");
     if (input) {
         input.addEventListener("keyup", function() {
             const filtro = input.value.toLowerCase();
-            document.querySelectorAll("#tablaCitas tr").forEach(function(row) {
-                const texto = row.textContent.toLowerCase();
-                row.style.display = texto.includes(filtro) ? "" : "none";
+            document.querySelectorAll(".cita-card").forEach(function(card) {
+                const texto = card.textContent.toLowerCase();
+                card.style.display = texto.includes(filtro) ? "" : "none";
             });
         });
     }

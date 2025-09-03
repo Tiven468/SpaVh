@@ -3,98 +3,159 @@
 {% block title %}Spa VH - Usuarios{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'usuarios/css/crudusuarios.css' %}">
 <style>
-    .search-box {
-        max-width: 350px;
-        margin: 20px 0 10px 0;
+    .crud-container {
+        background: #fff;
+        padding: 18px;
+        border-radius: 14px;
+        box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.07);
+        margin-top: 20px;
+        font-size: 14px;
     }
+
+    .crud-title h1 {
+        font-size: 20px;
+        font-weight: 700;
+        color: #C79E42;
+        margin: 0;
+    }
+
+    .btn-crear {
+        background: #fec2c2;
+        border: none;
+        color: white;
+        font-weight: 600;
+        border-radius: 8px;
+        padding: 6px 12px;
+        font-size: 13px;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .btn-crear:hover {
+        background: #C79E42;
+    }
+
+    .search-box input {
+        border-radius: 8px;
+        border: 1px solid #fec2c2;
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+
+    .table {
+        font-size: 13px;
+        margin-top: 12px;
+    }
+
     .table thead th {
         background: #ffe5e5;
         color: #C79E42;
         font-weight: 600;
+        text-align: center;
     }
-    .boton-editar, .btn[style*="background-color: #fec2c2;"] {
-        color: #fff;
-        font-weight: 500;
+
+    .table tbody td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .btn-accion {
+        background: #fec2c2;
         border: none;
+        color: white;
+        font-size: 12px;
+        border-radius: 6px;
+        padding: 4px 8px;
+        transition: 0.2s;
     }
-    .boton-editar:hover, .btn[style*="background-color: #fec2c2;"]:hover {
-        background-color: #C79E42 !important;
-        color: #fff;
+
+    .btn-accion:hover {
+        background: #C79E42;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-
-<div class="contanedor-general">
-    <div class="crud-title d-flex justify-content-between h-1 align-items-center">
-        <h1>Usuarios registrados</h1>
-        <a href="{% url 'crear_usuario' %}" class="btn" style="background-color: #fec2c2;">Crear Nuevo Usuario</a>
+<div class="crud-container">
+    <div class="crud-title d-flex justify-content-between align-items-center mb-2">
+        <h1>Usuarios</h1>
+        <a href="{% url 'crear_usuario' %}" class="btn btn-crear">
+            <i class="bi bi-person-plus"></i> Nuevo
+        </a>
     </div>
-    <div class="search-box">
+    <div class="search-box mb-2">
         <input type="text" id="busquedaUsuarios" class="form-control" placeholder="Buscar usuario...">
     </div>
     <div class="table-responsive">
-        <table class="table p-5 align-middle">
+        <table class="table table-sm table-hover align-middle">
             <thead>
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Apellido</th>
-                    <th scope="col">Tipo documento</th>
-                    <th scope="col">Documento</th>
-                    <th scope="col">Correo</th>
-                    <th scope="col">Contraseña</th>
-                    <th scope="col">Celular</th>
-                    <th scope="col">Fecha nacimiento</th>
-                    <th scope="col">Perfil</th>
-                    <th scope="col">Acciones</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Tipo doc</th>
+                    <th>Documento</th>
+                    <th>Correo</th>
+                    <th>Contraseña</th>
+                    <th>Celular</th>
+                    <th>Fecha nacimiento</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody id="tablaUsuarios">
                 {% for usuario in usuarios %}
                 <tr>
-                    <td>{{ usuario.idusuarios }}</td>
                     <td>{{ usuario.nombre }}</td>
                     <td>{{ usuario.apellido }}</td>
-                    <td>{{ usuario.tipodocumento }}</td>
+                    <td>{% if usuario.tipodocumento == 1 or usuario.tipodocumento == '1' %}
+                        CC
+                        {% elif usuario.tipodocumento == 2 or usuario.tipodocumento == '2' %}
+                        TI
+                        {% else %}
+                        {{ usuario.tipodocumento }}
+                        {% endif %}
+                    </td>
                     <td>{{ usuario.numerodocumento }}</td>
                     <td>{{ usuario.correo }}</td>
                     <td>{{ usuario.contraseña }}</td>
                     <td>{{ usuario.celular }}</td>
                     <td>{{ usuario.fechanacimiento }}</td>
-                    <td>{{ usuario.perfiles_idperfiles }}</td>
-                    <td class="d-flex gap-2">
-                        <a href="{% url 'editar_usuario' usuario.idusuarios %}" class="btn boton-editar" style="background-color: #fec2c2;">Editar</a> 
+                    <td class="d-flex justify-content-center gap-1">
+                        <a href="{% url 'editar_usuario' usuario.idusuarios %}" class="btn-accion">
+                            <i class="bi bi-pencil"></i>
+                        </a>
                         <form action="{% url 'eliminar_usuario' usuario.idusuarios %}" method="post"
-                            onsubmit="return confirm('¿Estás seguro de que quieres eliminar a {{ usuario.nombre }}?');">
-                            {% csrf_token %} <button type="submit" class="btn" style="background-color: #fec2c2;">Borrar</button>
+                            onsubmit="return confirm('¿Seguro quieres eliminar a {{ usuario.nombre }}?');">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-accion">
+                                <i class="bi bi-trash"></i>
+                            </button>
                         </form>
                     </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="9" class="text-center text-muted">No hay usuarios registrados</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
-
 {% endblock %}
 
 {% block extra_js %}
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const input = document.getElementById("busquedaUsuarios");
-    if (input) {
-        input.addEventListener("keyup", function() {
-            const filtro = input.value.toLowerCase();
-            document.querySelectorAll("#tablaUsuarios tr").forEach(function(row) {
-                const texto = row.textContent.toLowerCase();
-                row.style.display = texto.includes(filtro) ? "" : "none";
+    document.addEventListener("DOMContentLoaded", function () {
+        const input = document.getElementById("busquedaUsuarios");
+        if (input) {
+            input.addEventListener("keyup", function () {
+                const filtro = input.value.toLowerCase();
+                document.querySelectorAll("#tablaUsuarios tr").forEach(function (row) {
+                    const texto = row.textContent.toLowerCase();
+                    row.style.display = texto.includes(filtro) ? "" : "none";
+                });
             });
-        });
-    }
-});
+        }
+    });
 </script>
 {% endblock %}

@@ -4,15 +4,12 @@ from django.contrib import messages
 from usuarios.models import Usuarios, Servicios # ¡Asegúrate de importar Servicios aquí!
 from .forms import MensajeContactoForm # Asumo que este formulario existe
 
+
+
 def index(request):
-    nombre = None
-    if request.session.get('usuario_id'):
-        try:
-            usuario = Usuarios.objects.get(idusuarios=request.session['usuario_id'])
-            nombre = usuario.nombre
-        except Usuarios.DoesNotExist:
-            pass
-    return render(request, 'home/index.html', {'nombre': nombre})
+    servicios = Servicios.objects.all()[:2] 
+    return render(request, 'home/index.html', {'servicios': servicios})
+
 
 def servicios(request):
     nombre = None

@@ -4,28 +4,81 @@
 {% block title %}Spa VH - {{ action }} Servicio{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'usuarios/css/crudusuarios.css' %}"> {# Reutiliza o adapta tu CSS si aplica #}
 <style>
     .card-form {
-        max-width: 600px;
+        max-width: 650px;
         margin: 0 auto;
-        border-radius: 18px;
-        box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        border-radius: 20px;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
         padding: 2.5rem 2rem;
         background: #fff;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+
+    .card-form:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+    }
+
     .card-form h2 {
         color: #C79E42;
         font-family: 'Pattaya', cursive;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.8rem;
         text-align: center;
+        font-size: 2rem;
     }
+
+    /* Estilo de los labels */
+    .form-label {
+        font-weight: 600;
+        color: #555;
+        margin-bottom: 6px;
+    }
+
+    /* Inputs */
+    .form-control {
+        border-radius: 12px;
+        border: 1px solid #ddd;
+        padding: 10px 14px;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .form-control:focus {
+        border-color: #C79E42;
+        box-shadow: 0 0 0 0.25rem rgba(199, 158, 66, 0.25);
+    }
+
+    /* Botones */
     .btn-primary {
         background-color: #C79E42;
         border: none;
+        border-radius: 10px;
+        padding: 10px 20px;
+        font-weight: 600;
+        transition: all 0.3s ease;
     }
+
     .btn-primary:hover {
         background-color: #a87e2d;
+        transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+        border-radius: 10px;
+        font-weight: 600;
+        padding: 10px 20px;
+    }
+
+    /* Alertas */
+    .alert {
+        border-radius: 12px;
+        font-size: 0.95rem;
+    }
+
+    /* File input */
+    input[type="file"] {
+        padding: 8px;
+        background: #fafafa;
     }
 </style>
 {% endblock %}
@@ -36,33 +89,44 @@
         <h2>{{ action }} Servicio</h2>
 
         {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endfor %}
+        {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %} alert-dismissible fade show"
+            role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
         {% endif %}
 
-        <form method="post" action=""> {# La acción se manejará por la vista #}
+        <form method="post" action="" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="row g-3">
                 <div class="col-md-12">
-                    <label for="descripcion" class="form-label">Descripción:</label>
-                    <input type="text" class="form-control" id="descripcion" name="descripcion" 
-                           value="{% if servicio_data.descripcion %}{{ servicio_data.descripcion }}{% elif servicio %}{{ servicio.descripcion }}{% endif %}" required>
+                    <label for="titulo" class="form-label">Título:</label>
+                    <input type="text" class="form-control" id="titulo" name="titulo"
+                        value="{% if servicio_data.titulo %}{{ servicio_data.titulo }}{% elif servicio %}{{ servicio.titulo }}{% endif %}"
+                        required>
                 </div>
+
+                <div class="col-md-12">
+                    <label for="descripcion" class="form-label">Descripción:</label>
+                    <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required>{% if servicio_data.descripcion %}{{ servicio_data.descripcion }}{% elif servicio %}{{ servicio.descripcion }}{% endif %}</textarea>
+                </div>
+
                 <div class="col-md-12">
                     <label for="precio" class="form-label">Precio ($ COP):</label>
-                    <input type="number" step="0.01" class="form-control" id="precio" name="precio" 
-                           value="{% if servicio_data.precio %}{{ servicio_data.precio }}{% elif servicio %}{{ servicio.precio }}{% endif %}" required>
+                    <input type="number" step="0.01" class="form-control" id="precio" name="precio"
+                        value="{% if servicio_data.precio %}{{ servicio_data.precio }}{% elif servicio %}{{ servicio.precio }}{% endif %}"
+                        required>
                 </div>
+
                 <div class="col-md-12">
-                    <label for="imagenproducto" class="form-label">URL de la Imagen:</label>
-                    <input type="url" class="form-control" id="imagenproducto" name="imagenproducto" 
-                           value="{% if servicio_data.imagenproducto %}{{ servicio_data.imagenproducto }}{% elif servicio %}{{ servicio.imagenproducto }}{% endif %}" required>
+                    <label for="imagenproducto" class="form-label">Imagen del Producto:</label>
+                    <input type="file" class="form-control" id="imagenproducto" name="imagenproducto" accept="image/*"
+                        {% if not servicio %}required{% endif %}>
                 </div>
             </div>
+
             <div class="mt-4 d-flex justify-content-between">
                 <button type="submit" class="btn btn-primary">{{ action }} Servicio</button>
                 <a href="{% url 'servicio_admin_list' %}" class="btn btn-secondary">Cancelar</a>
