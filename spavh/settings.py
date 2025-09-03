@@ -69,8 +69,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -86,9 +84,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME':'spa',
-        'USER':'vero',
-        'PASSWORD': '}S5`Uuc=((c\z]N3',
-        'HOST':'34.59.212.248',
+        'USER':'root',
+        'PASSWORD': '',
+        'HOST':'localhost',
         'PORT':'3306'
     }
 }

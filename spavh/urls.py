@@ -23,6 +23,4 @@ urlpatterns = [
     path('reservas/', include('reservas.urls')),
     path('servicios/', include('servicios.urls')),
     path('usuarios/', include('usuarios.urls')),
-    path('oauth/', include('social_django.urls', namespace='social')),
-
 ]
