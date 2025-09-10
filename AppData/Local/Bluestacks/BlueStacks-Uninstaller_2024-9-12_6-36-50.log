@@ -1,0 +1,39 @@
+﻿2024-09-12 06:36:50.651 11460:00000001 (BlueStacksUninstaller) INFO: Copying C:\Program Files\BlueStacks\Assets to C:\Users\LUCIANA\AppData\Local\Temp\Assets
+2024-09-12 06:36:50.809 11460:00000001 (BlueStacksUninstaller) INFO: Copying files from C:\Program Files\BlueStacks\Assets to C:\Users\LUCIANA\AppData\Local\Temp\Assets
+2024-09-12 06:36:50.887 11460:00000001 (BlueStacksUninstaller) INFO: Copying files from C:\Program Files\BlueStacks\ to C:\Users\LUCIANA\AppData\Local\Temp\
+2024-09-12 06:36:51.077 11460:00000001 (BlueStacksUninstaller) INFO: Copying oem.cfg
+2024-09-12 06:36:51.092 11460:00000001 (BlueStacksUninstaller) INFO: Copying theme file
+2024-09-12 06:36:51.123 11460:00000001 (BlueStacksUninstaller) INFO: All files copied, starting File exectuion from temp path
+2024-09-12 06:36:51.453 11460:00000001 (BlueStacksUninstaller) INFO: Main unistall process started, exiting current application.
+2024-09-12 06:36:51.747 7116:00000001 (BlueStacksUninstaller) INFO: Attempting to load Oem.cfg from path: C:\Users\LUCIANA\AppData\Local\Temp\Oem.cfg
+2024-09-12 06:36:52.375 7116:00000001 (BlueStacksUninstaller) INFO: Successfully populated en-US strings
+2024-09-12 06:36:52.401 7116:00000001 (BlueStacksUninstaller) INFO: Successfully populated es-ES strings
+2024-09-12 06:37:28.296 7116:00000008 (BlueStacksUninstaller) INFO: Killing all BlueStacks processes
+2024-09-12 06:37:28.375 7116:00000008 (BlueStacksUninstaller) INFO: StopService BlueStacksDrv
+2024-09-12 06:37:28.376 7116:00000008 (BlueStacksUninstaller) INFO: OpenSCManager
+2024-09-12 06:37:28.378 7116:00000008 (BlueStacksUninstaller) INFO: StopService 484639296
+2024-09-12 06:37:28.437 7116:00000008 (BlueStacksUninstaller) INFO: RunCmd: starting cmd: schtasks.exe
+2024-09-12 06:37:28.437 7116:00000008 (BlueStacksUninstaller) INFO:   args: /Delete /TN BlueStacksHelper /F
+2024-09-12 06:37:28.560 7116:00000004 (BlueStacksUninstaller) INFO: 10052 ERR: 
+2024-09-12 06:37:28.561 7116:00000009 (BlueStacksUninstaller) INFO: 10052 OUT: Correcto: se elimin¢ correctamente la tarea programada "BlueStacksHelper".
+2024-09-12 06:37:28.561 7116:00000008 (BlueStacksUninstaller) INFO: RunCmd for proc.ID = 10052 exited with exitCode: 0
+2024-09-12 06:37:28.561 7116:00000008 (BlueStacksUninstaller) INFO: RunCmd: starting cmd: schtasks.exe
+2024-09-12 06:37:28.561 7116:00000008 (BlueStacksUninstaller) INFO:   args: /Delete /TN BlueStacksHelperTask /F
+2024-09-12 06:37:28.612 7116:00000009 (BlueStacksUninstaller) INFO: 13104 ERR: Error: El sistema no puede encontrar el archivo especificado.
+2024-09-12 06:37:28.612 7116:00000009 (BlueStacksUninstaller) INFO: 13104 ERR: 
+2024-09-12 06:37:28.614 7116:00000009 (BlueStacksUninstaller) INFO: 13104 ERR: 
+2024-09-12 06:37:28.615 7116:00000008 (BlueStacksUninstaller) INFO: RunCmd for proc.ID = 13104 exited with exitCode: 1
+2024-09-12 06:37:28.615 7116:00000008 (BlueStacksUninstaller) ERROR: An error occured while deleting the task, exit code: 1
+2024-09-12 06:37:28.621 7116:00000008 (BlueStacksUninstaller) INFO: Deleting directory : C:\Program Files\BlueStacks\
+2024-09-12 06:37:28.693 7116:00000008 (BlueStacksUninstaller) INFO: Deleting directory : C:\ProgramData\BlueStacks
+2024-09-12 06:37:31.574 7116:00000008 (BlueStacksUninstaller) INFO: Deleting directory : C:\Users\LUCIANA\AppData\Local\BlueStacksSetup
+2024-09-12 06:37:32.720 7116:00000008 (BlueStacksUninstaller) INFO: Deleting: C:\ProgramData\Microsoft\Windows\Start Menu\Programs\BlueStacks.lnk
+2024-09-12 06:37:32.720 7116:00000008 (BlueStacksUninstaller) INFO: Deleting: C:\ProgramData\Microsoft\Windows\Start Menu\Programs\BlueStacks Multi-Instance Manager.lnk
+2024-09-12 06:37:32.720 7116:00000008 (BlueStacksUninstaller) INFO: UninstallService BlueStacksDrv
+2024-09-12 06:37:32.720 7116:00000008 (BlueStacksUninstaller) INFO: OpenSCManager
+2024-09-12 06:37:32.720 7116:00000008 (BlueStacksUninstaller) INFO: StopService 590465792
+2024-09-12 06:37:32.769 7116:00000008 (BlueStacksUninstaller) INFO: DeleteInstallApkScheme start
+2024-09-12 06:37:32.774 7116:00000008 (BlueStacksUninstaller) INFO: DeleteInstallApkScheme end
+2024-09-12 06:37:32.775 7116:00000008 (BlueStacksUninstaller) INFO: DeleteInstallApkScheme start
+2024-09-12 06:37:32.775 7116:00000008 (BlueStacksUninstaller) INFO: DeleteInstallApkScheme end
+2024-09-12 06:37:34.045 7116:00000001 (BlueStacksUninstaller) INFO: uninstallation clean value : 0

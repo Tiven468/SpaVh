@@ -1,0 +1,107 @@
+<!-- Esta debe ser la primera linea de codigo si quiere utilizar el header, footer y configuracion general del body -->
+{% extends 'home/base.html' %}
+
+<!-- load static debe estar en todos los htmls que usen base.html -->
+{% load static %}
+
+<!-- block title es el titulo que tendra la pestaña de dicho html -->
+{% block title %}Spa Verónica Hernández{% endblock %}
+
+<!-- Aqui ponemos el archivo css de cada html -->
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'home/css/home.css' %}">
+{% endblock %}
+
+<!-- Aqui ponemos el contenido especifico del archivo html -->
+{% block content %}
+<section>
+    <div class="video" style="position: relative; width: 100%; height: 400px; overflow: hidden;">
+        <video id="video-background" autoplay muted loop style="width: 100%; height: 100%; object-fit: cover;">
+            <source src="{% static 'home/images/home.mp4' %}" type="video/mp4">
+        </video>
+        <div style="
+            font-family: Pattaya, sans-serif;
+            letter-spacing: 2px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-shadow: 2px 2px 8px rgba(204, 142, 7, 0.7);
+            text-align: center;">
+            <h2>¡Bienvenidos a Spa Verónica Hernández!</h2>
+            <p>Relájate y disfruta de una experiencia única</p>
+        </div>
+    </div>
+</section>
+
+<div class="container text-center mt-5 mb-5">
+    <div class="titulo">
+        <h3>Bienvenido(a) a nuestro Spa</h3>
+        <h4>Verónica Hernández</h4>
+    </div>
+    <div class="texto">
+        <p>En Spa Verónica Hernández, ofrecemos una amplia gama de servicios de relajación y belleza, diseñados para
+            brindarle un espacio perfecto para su descanso y renovación tanto espiritual como física. Nuestro personal
+            altamente calificado y con vasta experiencia se dedica a proporcionar un servicio de calidad excepcional.
+            Utilizamos productos naturales para maximizar los beneficios de nuestros tratamientos y terapias,
+            garantizando una experiencia rejuvenecedora.
+            En Spa Verónica Hernández, le ofrecemos una variedad de servicios de relajación y estética, que incluyen
+            masajes, tratamientos faciales, terapias reductoras, depilación y mucho más. Con años de experiencia en el
+            mercado, nuestra principal meta es satisfacer los deseos y necesidades de nuestros clientes, ofreciéndoles
+            servicios con el más alto nivel de profesionalismo.
+            Trabajamos incansablemente para que nuestros clientes logren completamente las expectativas del servicio que
+            buscan, ya sea para ellos mismos o para sus seres queridos. Visítenos y descubra cómo podemos ayudarle a
+            alcanzar el máximo bienestar y belleza.</p>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <div class="position-relative" style="height: 400px;">
+        <!-- Imagen de fondo -->
+        <img src="{% static 'home/images/FotoInicio.jpg' %}" class="img-fluid w-100 h-100"
+            style="object-fit: cover; border-radius: 5px;" alt="Imagen de fondo">
+
+        <!-- Contenido encima -->
+        <div class="tarjetaencima position-absolute top-50 start-0 translate-middle-y bg-light p-4"
+            style="max-width: 400px; border-radius: 10px;">
+            <h5>Servicios más vendidos.</h5>
+            <p><strong>Contamos con una variedad de diferentes servicios diseñados para tu relajación y
+                    bienestar.</strong><br>
+                A continuación, le presentamos algunos de los favoritos de nuestros clientes.</p>
+            <ul>
+                <li>Tratamientos Faciales personalizados con cuidado específico para cada tipo de piel</li>
+                <li>Terapias reductoras y remodeladoras esculpiendo tu cuerpo con técnicas avanzadas</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container text-center">
+    <div class="titulo">
+        <h3>Algunos de nuestros servicios recomendados</h3><br>
+
+    </div>
+   <div class="row row-cols-1 row-cols-md-2 g-4 mb-5 justify-content-center">
+    {% for servicio in servicios %}
+    <div class="col">
+        <div class="card carta">
+            {% if servicio.imagenproducto %}
+                <img src="{{ servicio.imagenproducto.url }}" class="card-img-top" alt="{{ servicio.titulo }}">
+            {% else %}
+                <img src="{% static 'home/images/placeholder.png' %}" class="card-img-top" alt="Sin imagen">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ servicio.titulo }}</h5>
+                <p class="text-muted mb-1">{{ servicio.precio|floatformat:0 }}$ COP</p>
+                <p class="card-text">{{ servicio.descripcion|truncatechars:100 }}</p>
+                <a href="{% url 'agendar' %}" class="btn botonReservaServicio mt-auto">Reserva ahora</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+</div>
+{% endblock %}

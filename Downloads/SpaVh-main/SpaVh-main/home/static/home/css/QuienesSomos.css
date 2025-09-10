@@ -1,0 +1,54 @@
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+}
+
+
+.texto {
+    padding: 0 5%;
+    text-align: justify;
+    color: #555;
+}
+
+h1 {
+    font-family: "Pattaya", sans-serif;
+    font-size: 2.5rem;
+    color: #C79E42;
+    margin-bottom: 1rem;
+}
+
+
+.imagen img {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 5%;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+@media (min-width: 768px) {
+    .container {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .texto {
+        flex: 1;
+        padding: 0 2rem;
+    }
+
+    .imagen {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+    }
+
+    .imagen img {
+        height: 600px;
+    }
+}

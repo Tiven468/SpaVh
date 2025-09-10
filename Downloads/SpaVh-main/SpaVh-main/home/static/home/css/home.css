@@ -1,0 +1,51 @@
+body{
+    background-color: aliceblue;
+}
+
+#video-background {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+}
+
+h3,h5{
+    font-family: "Pattaya", sans-serif;
+    text-decoration: none;
+    color: #C79E42;
+}
+
+h4{
+    font-family: "Pattaya", sans-serif;
+    color: black;
+}
+
+.tarjetaencima{
+    background: linear-gradient(to left, #feabab, #ffe7e7);
+}
+
+.container .contenedor{
+    display: flex;
+}
+
+.cauterizacionFoto{
+    height: 265px;
+}
+
+.botonReservaServicio{
+    background-color: #fec2c2;
+}
+.botonReservaServicioCAU{
+    background-color: #fec2c2;
+    margin-bottom: 13px;
+}
+
+.carta{
+    width: 23rem; 
+    margin-bottom: 3%;
+    height: 94%;
+}
+
+.precios{
+    font-size: 15px;
+}
+

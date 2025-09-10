@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Great+Vibes&family=Pattaya&display=swap');
+
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: white !important;
+}
+
+nav{
+    background-color: #ffdddd;
+}
+
+main{
+    padding: 5% 5%;
+}
+
+
+.Logo{
+    font-size: 20px;
+    
+    font-family: "Pattaya", sans-serif;
+    color: #C79E42;
+     /* Se adapta bien sin recortar */
+}
+
+li a{
+    font-family: "Pattaya", sans-serif;
+    color: #C79E42 !important;
+}
+
+.botonagendar{
+    background-color: #fec2c2;
+    color: #C79E42;
+    font-family: "Pattaya", sans-serif;
+}
+
+.botonlogin{
+    background-color: #fec2c2;
+    color: #C79E42;
+    font-family: "Pattaya", sans-serif;
+}

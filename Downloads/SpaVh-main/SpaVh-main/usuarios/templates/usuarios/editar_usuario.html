@@ -1,0 +1,69 @@
+{% extends 'usuarios/base.html' %}
+{% load static %}
+
+{% block title %}Spa VH - Editar Usuario{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'usuarios/css/crudusuarios.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Editar Usuario: {{ usuario.nombre }} {{ usuario.apellido }}</h2>
+    
+    {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <form method="post" action="{% url 'editar_usuario' usuario.idusuarios %}">
+        {% csrf_token %}
+        <div class="form-group mb-3">
+            <label for="nombre">Nombre:</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" value="{{ usuario.nombre }}" required>
+        </div>
+        <div class="form-group mb-3">
+            <label for="apellido">Apellido:</label>
+            <input type="text" class="form-control" id="apellido" name="apellido" value="{{ usuario.apellido }}" required>
+        </div>
+        <div class="form-group mb-3">
+            <label for="tipodocumento">Tipo de Documento:</label>
+            <input type="number" class="form-control" id="tipodocumento" name="tipodocumento" value="{{ usuario.tipodocumento }}" required>
+        </div>
+        <div class="form-group mb-3">
+            <label for="numerodocumento">Número de Documento:</label>
+            <input type="number" class="form-control" id="numerodocumento" name="numerodocumento" value="{{ usuario.numerodocumento }}" required>
+        </div>
+        <div class="form-group mb-3">
+            <label for="correo">Correo:</label>
+            <input type="email" class="form-control" id="correo" name="correo" value="{{ usuario.correo }}" required>
+        </div>
+        <div class="form-group mb-3">
+            <label for="contraseña">Contraseña:</label>
+            <input type="password" class="form-control" id="contraseña" name="contraseña" value="{{ usuario.contraseña }}" required>
+        </div>
+        <div class="form-group mb-3">
+            <label for="celular">Celular:</label>
+            <input type="tel" class="form-control" id="celular" name="celular" value="{{ usuario.celular }}" required>
+        </div>
+        <div class="form-group mb-3">
+            <label for="fechanacimiento">Fecha de Nacimiento:</label>
+            <input type="date" class="form-control" id="fechanacimiento" name="fechanacimiento" value="{{ usuario.fechanacimiento|date:'Y-m-d' }}" required>
+        </div>
+        <div class="form-group mb-3">
+            <label for="perfil">Perfil:</label>
+            <select class="form-control" id="perfil" name="perfil">
+                {% for perfil in perfiles %}
+                    <option value="{{ perfil.idperfiles }}" {% if perfil.idperfiles == usuario.perfiles_idperfiles.idperfiles %}selected{% endif %}>
+                        {{ perfil.descripcion }} 
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        <a href="{% url 'listausuarios' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

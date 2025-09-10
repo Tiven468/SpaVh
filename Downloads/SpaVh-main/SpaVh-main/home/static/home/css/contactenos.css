@@ -1,0 +1,41 @@
+body {
+    background-image: url("../images/Fondo.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin: 0;
+}
+.contenedorizquierdo{
+    background-color: rgba(254, 194, 194, 0.9);
+}
+
+.ponteContacto{
+    font-family: Pattaya, sans-serif;
+    color: #000000;
+    letter-spacing: 0.8px;
+    margin-top: 5%;
+}
+
+.contenedorderecho{
+    background-color: #ffffff;
+}
+
+.contactanos{
+    font-family: Pattaya, sans-serif;
+    color: #000000;
+    letter-spacing: 0.9px;
+    margin-top: 5%;
+}
+
+.contenedorinfo{
+    padding: 10% !important;
+}
+
+.nuestrasRedes{
+    font-family: Pattaya, sans-serif;
+    color: #000000;
+    letter-spacing: 0.8px;
+    margin-bottom: 25% !important;
+}
+
+

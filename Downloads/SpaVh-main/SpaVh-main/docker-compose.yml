@@ -1,0 +1,10 @@
+services:
+  django:
+    build: .
+    container_name: spavh_app
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env

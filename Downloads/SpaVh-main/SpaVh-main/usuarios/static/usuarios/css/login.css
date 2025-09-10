@@ -1,0 +1,62 @@
+body {
+    background-image: url("../images/Fondo.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin: 0;
+    font-family: "Pattaya", sans-serif;
+}
+
+.contenedor-auth {
+    width: 100%;
+    max-width: 550px;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.switch-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.switch-btn {
+    border: none;
+    background-color: transparent;
+    font-size: 18px;
+    margin: 0 15px;
+    cursor: pointer;
+    color: #333;
+    padding-bottom: 5px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.switch-btn.active {
+    border-bottom: 2px solid #C79E42;
+    color: #C79E42;
+}
+
+.auth-form h2 {
+    text-align: center;
+    color: #C79E42;
+    margin-bottom: 20px;
+}
+
+.botonformulario {
+    background-color: #fec2c2;
+    color: #C79E42;
+    font-family: "Pattaya", sans-serif;
+    width: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: grey;
+    display: block;
+    margin-top: 5px;
+}
+
+

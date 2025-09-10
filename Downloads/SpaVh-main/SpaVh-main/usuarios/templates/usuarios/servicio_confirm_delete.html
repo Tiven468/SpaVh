@@ -1,0 +1,18 @@
+{% extends 'usuarios/base.html' %} {# Extiende de la base de tu panel de administración #}
+{% load static %}
+
+{% block title %}Confirmar Eliminación{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Eliminar Servicio</h2>
+    <p class="lead">¿Estás seguro de que quieres eliminar el servicio "<strong>{{ servicio.descripcion }}</strong>"?</p>
+    <p class="text-danger">Esta acción no se puede deshacer.</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sí, Eliminar</button>
+        <a href="{% url 'servicio_admin_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
