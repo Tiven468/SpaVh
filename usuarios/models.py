@@ -209,6 +209,7 @@ class Servicios(models.Model):
     descripcion = models.CharField(db_column='Descripcion', max_length=255)
     precio = models.IntegerField(db_column='Precio')
     imagenproducto = models.ImageField(upload_to='servicios/', db_column='ImagenProducto')  
+    habilitado = models.BooleanField(default=True)  # 👈 Campo agregado
 
     class Meta:
         managed = False   

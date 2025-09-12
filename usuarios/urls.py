@@ -25,9 +25,11 @@ urlpatterns = [
     # URLs de Gestión de Citas
     path('agendar/', views.agendar, name='agendar'), # Para que los usuarios agenden citas
     path('citas/', views.listar_citas, name='listar_citas'), # Para que el admin liste citas
+    path('agendar/<int:servicio_id>/', views.agendar, name='agendar'),
 
     # --- NUEVAS URLs para la Gestión de Servicios (Admin CRUD) ---
     path('servicios/admin/', views.servicio_admin_list, name='servicio_admin_list'),
+    path('servicios/toggle/<int:pk>/', views.servicio_toggle, name='servicio_toggle'),
     path('servicios/crear/', views.servicio_create, name='servicio_create'),
     path('servicios/editar/<int:pk>/', views.servicio_update, name='servicio_update'),
     path('servicios/eliminar/<int:pk>/', views.servicio_delete, name='servicio_delete'),

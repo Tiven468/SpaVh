@@ -13,20 +13,22 @@ def index(request):
 
 def servicios(request):
     nombre = None
+    servicios_data = []  # ✅ siempre inicializamos la variable
+
     if request.session.get('usuario_id'):
         try:
             usuario = Usuarios.objects.get(idusuarios=request.session['usuario_id'])
             nombre = usuario.nombre
         except Usuarios.DoesNotExist:
             pass
-    
-    # --- ¡Aquí es donde obtenemos los servicios de la base de datos! ---
-    servicios_data = Servicios.objects.all().order_by('descripcion') # Ordena por descripción, por ejemplo
+
+    servicios_data = Servicios.objects.filter(habilitado=True).order_by('titulo')
 
     return render(request, 'home/servicios.html', {
         'nombre': nombre,
-        'servicios': servicios_data # Pasamos los servicios al contexto de la plantilla
+        'servicios': servicios_data
     })
+
 
 def quienessomos(request):
     nombre = None

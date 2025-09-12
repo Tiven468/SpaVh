@@ -32,6 +32,7 @@
         box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.08);
         transition: transform 0.2s ease, box-shadow 0.2s ease;
         background: #fff;
+        position: relative;
     }
 
     .card-servicio:hover {
@@ -66,7 +67,8 @@
 
     .acciones {
         display: flex;
-        gap: 10px;
+        flex-wrap: wrap;
+        gap: 8px;
         margin-top: 1rem;
     }
 
@@ -92,6 +94,26 @@
 
     .btn-crear:hover {
         background-color: #C79E42;
+        color: #fff;
+    }
+
+    .estado-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        padding: 6px 12px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        border-radius: 12px;
+    }
+
+    .badge-habilitado {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+    .badge-inhabilitado {
+        background-color: #dc3545;
         color: #fff;
     }
 
@@ -135,6 +157,11 @@
                 {% else %}
                 <img src="{% static 'usuarios/img/placeholder.png' %}" alt="Sin imagen">
                 {% endif %}
+
+                <span class="estado-badge {% if servicio.habilitado %}badge-habilitado{% else %}badge-inhabilitado{% endif %}">
+                    {% if servicio.habilitado %}Habilitado{% else %}Inhabilitado{% endif %}
+                </span>
+
                 <div class="card-body">
                     <h5>{{ servicio.titulo }}</h5>
                     <p>{{ servicio.descripcion }}</p>
@@ -146,6 +173,12 @@
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger">Borrar</button>
                         </form>
+
+                        {% if servicio.habilitado %}
+                        <a href="{% url 'servicio_toggle' servicio.idservicios %}" class="btn btn-secondary">Inhabilitar</a>
+                        {% else %}
+                        <a href="{% url 'servicio_toggle' servicio.idservicios %}" class="btn btn-success">Habilitar</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

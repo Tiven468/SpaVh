@@ -10,6 +10,8 @@ import json
 import uuid
 from django.utils import timezone
 from datetime import timedelta
+from django.utils.timezone import now
+
 
 
 # --- Vistas Existentes (Sin cambios funcionales, solo se incluye para contexto) ---
@@ -33,10 +35,10 @@ def login(request):
             usuario = Usuarios.objects.get(correo=correo, contraseña=contraseña)
             request.session['usuario_id'] = usuario.idusuarios
             request.session['perfil'] = usuario.perfiles_idperfiles.descripcion.lower()
-            if usuario.perfiles_idperfiles_id == 1: # Asumiendo que 1 es el ID del perfil "admin"
+            if usuario.perfiles_idperfiles_id == 1:
                 return redirect('adminbase')
             else:
-                return redirect('index') # Redirige al index público
+                return redirect('home') 
         except Usuarios.DoesNotExist:
             messages.error(request, 'Correo o contraseña incorrectos')
     return render(request, 'usuarios/login.html')
@@ -94,72 +96,34 @@ def cuenta(request):
     })
 
 
-def agendar(request):
-    usuario_id = request.session.get('usuario_id')
-    if not usuario_id:
-        return redirect('login')
-    
-    try:
-        usuario = get_object_or_404(Usuarios, idusuarios=usuario_id)
-    except Usuarios.DoesNotExist:
-        return redirect('login') # Esto ya lo maneja get_object_or_404, pero se mantiene si hay más lógica
+def agendar(request, servicio_id=None):
+    usuario = None
+    servicio_seleccionado = None
+    fecha_actual = now().strftime("%Y-%m-%dT%H:%M")  # ✅ corregido
 
-    mensaje = None
-    error = None
+    # Recuperar usuario en sesión
+    if request.session.get('usuario_id'):
+        usuario = get_object_or_404(Usuarios, idusuarios=request.session['usuario_id'])
 
-    if request.method == 'POST':
-        fecha_hora_str = request.POST.get('fecha_hora') 
-        servicio = request.POST.get('servicio')
-        metodopago = request.POST.get('metodo_pago')
-        alergias = request.POST.get('alergias')
+    # Todos los servicios habilitados
+    servicios = Servicios.objects.filter(habilitado=True).order_by('titulo')
 
-        fecha = None
-        hora = None
-
-        if fecha_hora_str:
-            try:
-                fecha_completa = datetime.strptime(fecha_hora_str, '%Y-%m-%dT%H:%M')
-
-                if fecha_completa < datetime.now():
-                    error = 'No puedes agendar una cita en el pasado.'
-                else:
-                    fecha = fecha_completa.date()
-                    hora = fecha_completa.strftime('%H:%M')
-            except ValueError:
-                error = 'Formato de fecha y hora no válido.'
-        else:
-            error = 'Debes seleccionar una fecha y hora válidas.'
-
-        if not error and not (servicio and metodopago):
-            error = 'Todos los campos son obligatorios.'
-        
-        if not error:
-            if Horarios.objects.filter(fecha=fecha, hora=hora).exists():
-                error = 'Ese horario ya está ocupado. Elige otro.'
-            else:
-                horario = Horarios.objects.create(fecha=fecha, hora=hora)
-                Agendarcita.objects.create(
-                    usuarios_idusuarios=usuario,
-                    horarios_idhorarios=horario,
-                    servicio=servicio,
-                    metodopago=metodopago,
-                    alergias=alergias
-                )
-                mensaje = 'Cita agendada exitosamente.'
+    # Si llega con servicio_id (desde "Reservar ahora")
+    if servicio_id:
+        servicio_seleccionado = get_object_or_404(Servicios, idservicios=servicio_id)
 
     return render(request, 'usuarios/agendar.html', {
         'usuario': usuario,
-        'mensaje': mensaje,
-        'error': error,
-        'fecha_actual': datetime.now().strftime('%Y-%m-%dT%H:%M') 
+        'servicios': servicios,
+        'servicio_seleccionado': servicio_seleccionado,
+        'fecha_actual': fecha_actual
     })
-
 
 def adminbase(request):
     # Aquí puedes añadir una verificación de perfil para asegurar que solo los admins accedan
     # if request.session.get('perfil') != 'admin':
     #    return redirect('login')
-    return render(request, 'usuarios/base.html')
+    return redirect('adminpage')
 
 
 def crudusuarios(request): # Esta vista parece redundante con listausuarios, podrías usar solo listausuarios
@@ -324,6 +288,16 @@ def nueva_contraseña(request, token):
 def servicio_admin_list(request):
     servicios = Servicios.objects.all().order_by('descripcion')
     return render(request, 'usuarios/servicio_admin_list.html', {'servicios': servicios})
+
+def servicio_toggle(request, pk):
+    servicio = get_object_or_404(Servicios, pk=pk)
+    servicio.habilitado = not servicio.habilitado
+    servicio.save()
+    if servicio.habilitado:
+        messages.success(request, f'El servicio "{servicio.titulo}" ha sido habilitado.')
+    else:
+        messages.warning(request, f'El servicio "{servicio.titulo}" ha sido inhabilitado.')
+    return redirect('servicio_admin_list')
 
 def servicio_create(request):
     if request.method == 'POST':
