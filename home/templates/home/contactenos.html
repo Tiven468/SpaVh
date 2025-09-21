@@ -1,5 +1,4 @@
 {% extends 'home/base.html' %}
-
 {% load static %}
 
 {% block title %}Contáctenos - Spa Verónica Hernández{% endblock %}
@@ -17,8 +16,10 @@
     </div>
   {% endfor %}
 {% endif %}
+
 <div class="container my-5 ">
   <div class="row shadow rounded overflow-hidden contenedorcontacto">
+    <!-- Columna izquierda -->
     <div class="col-md-6 py-5 px-4 contenedorizquierdo">
       <h4 class="fw-bold mb-4 hw-3 text-center ponteContacto">Ponte en contacto con <br>nosotros</h4>
 
@@ -37,54 +38,57 @@
         </div>
       </div>
 
-      <h4 class="fw-bold mt-5 text-center nuestrasRedes">Conecta con
-        nuestras redes sociales</h4>
-
+      <h4 class="fw-bold mt-5 text-center nuestrasRedes">Conecta con nuestras redes sociales</h4>
       <div class="d-flex justify-content-center gap-3 mt-3 redes">
-
         <a href="https://www.instagram.com/spa.veronicahernandez" style="color: inherit; margin-right: 10px;">
           <i class="bi bi-instagram fs-4"></i>
         </a>
-
         <a href="https://www.tiktok.com/@spa.veronicahernandez101" style="color: inherit; margin-right: 10px;">
           <i class="bi bi-tiktok fs-4"></i>
         </a>
-
-        <a href="https://wa.me/+573026491015" style="color: inherit; margin-right: 10px;" target="_blank"
-          rel="noopener">
+        <a href="https://wa.me/+573026491015" style="color: inherit; margin-right: 10px;" target="_blank" rel="noopener">
           <i class="bi bi-whatsapp fs-4"></i>
         </a>
       </div>
 
       <div class="text-center mt-5">
-        <img src="{% static 'home/images/Logo.png' %} " class="" alt="logo spa" style="max-height: 50px;">
+        <img src="{% static 'home/images/Logo.png' %}" class="" alt="logo spa" style="max-height: 50px;">
       </div>
     </div>
+
+    <!-- Columna derecha -->
     <div class="col-md-6 bg-white py-5 px-4 contenedorderecho">
       <h4 class="fw-bold mb-4 text-center contactanos">Contáctanos</h4>
       <form method="post">
-    {% csrf_token %}
-    <div class="mb-3">
-        <label for="{{ form.nombre.id_for_label }}" class="form-label">Nombre</label>
-        {{ form.nombre }}
+        {% csrf_token %}
+
+        {% if not nombre %}
+          <!-- Si NO está logueado mostramos todos los campos -->
+          <div class="mb-3">
+            <label for="{{ form.nombre.id_for_label }}" class="form-label">Nombre</label>
+            {{ form.nombre }}
+          </div>
+          <div class="mb-3">
+            <label for="{{ form.apellido.id_for_label }}" class="form-label">Apellido</label>
+            {{ form.apellido }}
+          </div>
+          <div class="mb-3">
+            <label for="{{ form.correo.id_for_label }}" class="form-label">Correo</label>
+            {{ form.correo }}
+          </div>
+        {% else %}
+          <!-- Si está logueado, mostramos un saludo -->
+          <p><strong>Hola {{ nombre }}</strong>, deja tu mensaje y nos pondremos en contacto contigo.</p>
+        {% endif %}
+
+        <div class="mb-3">
+          <label for="{{ form.mensaje.id_for_label }}" class="form-label">Déjanos tu mensaje...</label>
+          {{ form.mensaje }}
+        </div>
+
+        <button type="submit" class="btn w-100" style="background-color: #fec2c2;">Enviar</button>
+      </form>
     </div>
-    <div class="mb-3">
-        <label for="{{ form.apellido.id_for_label }}" class="form-label">Apellido</label>
-        {{ form.apellido }}
-    </div>
-    <div class="mb-3">
-        <label for="{{ form.correo.id_for_label }}" class="form-label">Correo</label>
-        {{ form.correo }}
-    </div>
-    <div class="mb-3">
-        <label for="{{ form.mensaje.id_for_label }}" class="form-label">Déjanos tu mensaje...</label>
-        {{ form.mensaje }}
-    </div>
-    <button type="submit" class="btn w-100" style="background-color: #fec2c2;">Enviar</button>
-</form>
-    </div>
-      
   </div>
 </div>
-
 {% endblock %}

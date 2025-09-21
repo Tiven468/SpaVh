@@ -27,7 +27,9 @@
             </div>
             <div class="col-md-9">
                 <div class="card-body">
-                    <h2 class="card-title mb-3" style="color: #C79E42; font-family: 'Pattaya', cursive;">¡Bienvenida, {{ usuario.nombre }}!</h2>
+                    <h2 class="card-title mb-3" style="color: #C79E42; font-family: 'Pattaya', cursive;">
+                        ¡Bienvenida, {{ usuario.nombre }}!
+                    </h2>
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <p class="mb-1"><i class="bi bi-person-fill me-2" style="color:#C79E42;"></i><strong>Apellido:</strong> {{ usuario.apellido }}</p>
@@ -35,11 +37,13 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <p class="mb-1"><i class="bi bi-phone-fill me-2" style="color:#C79E42;"></i><strong>Celular:</strong> {{ usuario.celular }}</p>
-                            <p class="mb-0"><i class="bi bi-cake-fill me-2" style="color:#C79E42;"></i><strong>Nacimiento:</strong> {{ usuario.fechanacimiento|date:"d/m/Y" }}</p>
+                            <p class="mb-0"><i class="bi bi-cake-fill me-2" style="color:#C79E42;"></i><strong>Nacimiento:</strong> {{ usuario.fechanacimiento|date:"d/m/Y"|default:"-" }}</p>
                         </div>
                     </div>
                     <div class="mt-4">
-                        <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm px-4"><i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión</a>
+                        <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm px-4">
+                            <i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión
+                        </a>
                     </div>
                 </div>
             </div>
@@ -48,7 +52,18 @@
 
     <!-- Mis Citas -->
     <div class="mb-5">
-        <h4 class="mb-4" style="color:#C79E42; font-family:'Pattaya', cursive;"><i class="bi bi-calendar-check-fill me-2"></i>Mis Citas Agendadas</h4>
+        <h4 class="mb-4" style="color:#C79E42; font-family:'Pattaya', cursive;">
+            <i class="bi bi-calendar-check-fill me-2"></i>Mis Citas Agendadas
+        </h4>
+
+        <!-- Filtros -->
+        <div class="mb-4 text-center">
+            <a href="?estado=" class="btn btn-outline-secondary btn-sm {% if not estado %}active{% endif %}">Todas</a>
+            <a href="?estado=Aceptada" class="btn btn-outline-success btn-sm {% if estado == 'Aceptada' %}active{% endif %}">Aceptadas</a>
+            <a href="?estado=Pendiente" class="btn btn-outline-warning btn-sm {% if estado == 'Pendiente' %}active{% endif %}">Pendientes</a>
+            <a href="?estado=Cancelada" class="btn btn-outline-danger btn-sm {% if estado == 'Cancelada' %}active{% endif %}">Canceladas</a>
+        </div>
+
         {% if citas %}
             <div class="row g-4">
                 {% for cita in citas %}
@@ -61,7 +76,19 @@
                             <p class="mb-2"><i class="bi bi-calendar-event-fill me-2" style="color:#f7c59f;"></i><strong>Fecha:</strong> {{ cita.horarios_idhorarios.fecha|date:"d/m/Y" }}</p>
                             <p class="mb-2"><i class="bi bi-clock-fill me-2" style="color:#f7c59f;"></i><strong>Hora:</strong> {{ cita.horarios_idhorarios.hora|slice:":5" }}</p>
                             <p class="mb-2"><i class="bi bi-clipboard-fill me-2" style="color:#f7c59f;"></i><strong>Alergias:</strong> {{ cita.alergias|default:"-" }}</p>
-                            <p class="mb-0"><i class="bi bi-wallet2 me-2" style="color:#f7c59f;"></i><strong>Método de Pago:</strong> {{ cita.metodopago }}</p>
+                            <p class="mb-2"><i class="bi bi-wallet2 me-2" style="color:#f7c59f;"></i><strong>Método de Pago:</strong> {{ cita.metodopago }}</p>
+                            
+                            <p class="mb-0"><i class="bi bi-info-circle-fill me-2" style="color:#f7c59f;"></i><strong>Estado:</strong> 
+                                {% if cita.estado == "Aceptada" %}
+                                    <span class="badge bg-success">{{ cita.estado }}</span>
+                                {% elif cita.estado == "Cancelada" %}
+                                    <span class="badge bg-danger">{{ cita.estado }}</span>
+                                {% elif cita.estado == "Pendiente" %}
+                                    <span class="badge bg-warning text-dark">{{ cita.estado }}</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">{{ cita.estado }}</span>
+                                {% endif %}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -81,6 +108,9 @@
 .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 25px rgba(199,158,66,0.2);
+}
+.btn.active {
+    box-shadow: 0 0 10px rgba(199,158,66,0.5);
 }
 </style>
 {% endblock %}

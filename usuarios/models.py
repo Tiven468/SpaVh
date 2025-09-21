@@ -23,8 +23,10 @@ class Agendarcita(models.Model):
     servicio = models.CharField(db_column='Servicio', max_length=100)
     metodopago = models.CharField(db_column='MetodoPago', max_length=50)
     alergias = models.CharField(db_column='Alergias', max_length=255, blank=True, null=True)
+    estado = models.CharField(db_column='Estado', max_length=20, default='Pendiente')  # <--- NUEVO CAMPO
+
     class Meta:
-        managed = False
+        managed = False 
         db_table = 'agendarcita'
 
 
@@ -107,17 +109,6 @@ class Citaservicios(models.Model):
         db_table = 'citaservicios'
 
 
-class Contacto(models.Model):
-    idcontacto = models.AutoField(db_column='IdContacto', primary_key=True)  # Field name made lowercase.
-    nombre = models.CharField(db_column='Nombre', max_length=255)  # Field name made lowercase.
-    apellido = models.CharField(db_column='Apellido', max_length=50)  # Field name made lowercase.
-    correo = models.CharField(db_column='Correo', max_length=100)  # Field name made lowercase.
-    usuarios_idusuarios = models.ForeignKey('Usuarios', models.DO_NOTHING, db_column='Usuarios_IdUsuarios')  # Field name made lowercase.
-    mensaje = models.CharField(db_column='Mensaje', max_length=255)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'contacto'
 
 
 class DjangoAdminLog(models.Model):
@@ -209,11 +200,12 @@ class Servicios(models.Model):
     descripcion = models.CharField(db_column='Descripcion', max_length=255)
     precio = models.IntegerField(db_column='Precio')
     imagenproducto = models.ImageField(upload_to='servicios/', db_column='ImagenProducto')  
-    habilitado = models.BooleanField(default=True)  # 👈 Campo agregado
+    habilitado = models.BooleanField(default=True) 
 
     class Meta:
         managed = False   
         db_table = 'servicios'
+
 
 
 class Usuarios(models.Model):
@@ -223,7 +215,7 @@ class Usuarios(models.Model):
     tipodocumento = models.IntegerField(db_column='TipoDocumento')  # Field name made lowercase.
     numerodocumento = models.BigIntegerField(db_column='NumeroDocumento', unique=True)  # Field name made lowercase.
     correo = models.CharField(db_column='Correo', max_length=100)  # Field name made lowercase.
-    contraseña = models.CharField(db_column='Contraseña', max_length=45)  # Field name made lowercase.
+    contraseña = models.CharField(db_column='Contraseña', max_length=255)
     celular = models.CharField(max_length=15, db_column='Celular')
     fechanacimiento = models.DateField(db_column='FechaNacimiento') 
     perfiles_idperfiles = models.ForeignKey(Perfiles, models.DO_NOTHING, db_column='Perfiles_IdPerfiles')  

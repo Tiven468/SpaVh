@@ -191,23 +191,28 @@
                         <i class="bi bi-tags"></i> Servicios
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'listar_contactos' %}active{% endif %}"
+                        href="{% url 'listar_contactos' %}">
+                        <i class="bi bi-chat-left-text"></i> Contactos
+                    </a>
+                </li>
             </ul>
         </nav>
-       <div class="user-info text-center p-3 shadow rounded" style=" border: 1px solid #ffcdd2;">
-    {% if nombre %}
-    <div class="fw-bold mb-2" style="color:#C79E42; font-family:'Pattaya', cursive; font-size:18px;">
-        <i class="bi bi-person-circle" style="font-size:22px; color:#ff6f61;"></i> {{ nombre }}
-    </div>
-    {% endif %}
+        <div class="user-info text-center p-3 shadow rounded" style=" border: 1px solid #ffcdd2;">
+            {% if nombre %}
+            <div class="fw-bold mb-2" style="color:#C79E42; font-family:'Pattaya', cursive; font-size:18px;">
+                <i class="bi bi-person-circle" style="font-size:22px; color:#ff6f61;"></i> {{ nombre }}
+            </div>
+            {% endif %}
 
-    {% if request.session.perfil %}
-    <a class="btn w-100 mt-2 py-2 fw-bold shadow-sm" 
-       href="{% url 'logout' %}" 
-       style="background: linear-gradient(135deg, #ff6f61, #ff9a8b); color:white; border-radius:12px; font-size:15px;">
-        <i class="bi bi-box-arrow-right me-1"></i> Cerrar Sesión
-    </a>
-    {% endif %}
-</div>
+            {% if request.session.perfil %}
+            <a class="btn w-100 mt-2 py-2 fw-bold shadow-sm" href="{% url 'logout' %}"
+                style="background: linear-gradient(135deg, #ff6f61, #ff9a8b); color:white; border-radius:12px; font-size:15px;">
+                <i class="bi bi-box-arrow-right me-1"></i> Cerrar Sesión
+            </a>
+            {% endif %}
+        </div>
 
     </div>
 

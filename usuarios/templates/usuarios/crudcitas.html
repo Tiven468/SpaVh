@@ -7,23 +7,27 @@
     .citas-container {
         margin-top: 20px;
     }
+
     .card-cita {
         border: none;
         border-radius: 16px;
-        box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
         transition: transform 0.2s ease, box-shadow 0.2s ease;
         background: #fff;
     }
+
     .card-cita:hover {
         transform: translateY(-4px);
-        box-shadow: 0px 6px 16px rgba(0,0,0,0.15);
+        box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.15);
     }
+
     .card-header {
         background: #ffe5e5;
         color: #C79E42;
         font-weight: 600;
         border-radius: 16px 16px 0 0 !important;
     }
+
     .estado-select {
         border-radius: 8px;
         padding: 4px 10px;
@@ -33,6 +37,7 @@
         color: #fff;
         cursor: pointer;
     }
+
     /* Opciones siempre blancas */
     .estado-select option {
         background: #fff;
@@ -63,14 +68,15 @@
                     <p><i class="bi bi-heart"></i> <strong>Servicio:</strong> {{ cita.servicio }}</p>
                     <p><i class="bi bi-credit-card"></i> <strong>Pago:</strong> {{ cita.metodopago }}</p>
                     <p><i class="bi bi-exclamation-circle"></i> <strong>Alergias:</strong> {{ cita.alergias|default:"Ninguna" }}</p>
-                </div>
-                <div class="card-footer bg-white d-flex justify-content-between align-items-center">
-                    <span><i class="bi bi-flag"></i> Estado:</span>
-                    <select class="estado-select">
-                        <option value="Pendiente" {% if cita.estado == "Pendiente" %}selected{% endif %}>Pendiente</option>
-                        <option value="Aceptada" {% if cita.estado == "Aceptada" %}selected{% endif %}>Aceptada</option>
-                        <option value="Cancelada" {% if cita.estado == "Cancelada" %}selected{% endif %}>Cancelada</option>
-                    </select>
+                    <p><i class="bi bi-flag"></i> <strong>Estado:</strong></p>
+                    <form method="POST" action="{% url 'cambiar_estado_cita' cita.idagendarcita %}">
+                        {% csrf_token %}
+                        <select name="estado" class="estado-select" onchange="this.form.submit()">
+                            <option value="Pendiente" {% if cita.estado == "Pendiente" %}selected{% endif %}>Pendiente</option>
+                            <option value="Aceptada" {% if cita.estado == "Aceptada" %}selected{% endif %}>Aceptada</option>
+                            <option value="Cancelada" {% if cita.estado == "Cancelada" %}selected{% endif %}>Cancelada</option>
+                        </select>
+                    </form>
                 </div>
             </div>
         </div>
@@ -83,34 +89,34 @@
 
 {% block extra_js %}
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    function aplicarColor(select) {
-        let color = "#6c757d"; // gris por defecto
-        if (select.value === "Pendiente") color = "#ffc107"; // amarillo
-        if (select.value === "Aceptada") color = "#28a745"; // verde
-        if (select.value === "Cancelada") color = "#dc3545"; // rojo
+    document.addEventListener("DOMContentLoaded", function () {
+        function aplicarColor(select) {
+            let color = "#6c757d"; // gris por defecto
+            if (select.value === "Pendiente") color = "#ffc107"; // amarillo
+            if (select.value === "Aceptada") color = "#28a745"; // verde
+            if (select.value === "Cancelada") color = "#dc3545"; // rojo
 
-        select.style.backgroundColor = color;
-        select.style.color = "#fff"; // texto blanco en el seleccionado
-    }
+            select.style.backgroundColor = color;
+            select.style.color = "#fff"; // texto blanco en el seleccionado
+        }
 
-    const selects = document.querySelectorAll(".estado-select");
-    selects.forEach(select => {
-        aplicarColor(select); // aplica al cargar
-        select.addEventListener("change", () => aplicarColor(select)); // aplica al cambiar
-    });
-
-    // buscador
-    const input = document.getElementById("busquedaCitas");
-    if (input) {
-        input.addEventListener("keyup", function() {
-            const filtro = input.value.toLowerCase();
-            document.querySelectorAll(".cita-card").forEach(function(card) {
-                const texto = card.textContent.toLowerCase();
-                card.style.display = texto.includes(filtro) ? "" : "none";
-            });
+        const selects = document.querySelectorAll(".estado-select");
+        selects.forEach(select => {
+            aplicarColor(select); // aplica al cargar
+            select.addEventListener("change", () => aplicarColor(select)); // aplica al cambiar
         });
-    }
-});
+
+        // buscador
+        const input = document.getElementById("busquedaCitas");
+        if (input) {
+            input.addEventListener("keyup", function () {
+                const filtro = input.value.toLowerCase();
+                document.querySelectorAll(".cita-card").forEach(function (card) {
+                    const texto = card.textContent.toLowerCase();
+                    card.style.display = texto.includes(filtro) ? "" : "none";
+                });
+            });
+        }
+    });
 </script>
 {% endblock %}
