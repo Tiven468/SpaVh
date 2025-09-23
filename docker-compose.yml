@@ -1,16 +1,10 @@
-version: '3.8'
-
 services:
-  spavh_db:
-    image: mysql:8.0
-    container_name: spavh_db
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root1234   # contraseña segura
-      MYSQL_DATABASE: spa
-    ports:
-      - "3306:3306"
+  django:
+    build: .
+    container_name: spavh_app
     volumes:
-      - db_data:/var/lib/mysql
-volumes:
-  db_data:
+      - .:/app
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
